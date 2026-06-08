@@ -1,0 +1,30 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IDE
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Database credentials (jangan commit password asli)
+src/main/resources/db.properties
+
+# Tomcat lokal — unduh sendiri, jangan commit distribusi Tomcat
+tomcat/
+
+# OS
+.DS_Store
+Thumbs.db
