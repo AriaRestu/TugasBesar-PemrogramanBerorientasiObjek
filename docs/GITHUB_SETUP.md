@@ -26,17 +26,17 @@ git push -u origin main
 
 ## Langkah 3 — Undang anggota tim
 
-Di GitHub repo → **Settings** → **Collaborators** → tambahkan 3 anggota lain.
+Di GitHub repo → **Settings** → **Collaborators** → tambahkan Andra, Brian, dan Aria.
 
 ## Langkah 4 — Buat branch untuk tiap modul
 
 Setelah semua anggota punya akses, masing-masing:
 
 ```bash
-git checkout -b feat/modul1-auth    # Anggota 1
-git checkout -b feat/modul2-ruang   # Anggota 2
-git checkout -b feat/modul3-peminjaman  # Anggota 3
-git checkout -b feat/modul4-approval    # Anggota 4
+git checkout -b feat/modul1-auth    # Gibran
+git checkout -b feat/modul2-ruang   # Andra
+git checkout -b feat/modul3-peminjaman  # Brian
+git checkout -b feat/modul4-approval    # Aria
 git push -u origin <nama-branch>
 ```
 

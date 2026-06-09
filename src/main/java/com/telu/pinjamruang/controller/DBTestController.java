@@ -1,4 +1,4 @@
-package com.telu.pinjamruang.servlet;
+package com.telu.pinjamruang.controller;
 
 import com.telu.pinjamruang.util.DBConnection;
 
@@ -17,8 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "DBTestServlet", urlPatterns = {"/db-test"})
-public class DBTestServlet extends HttpServlet {
+@WebServlet(name = "DBTestController", urlPatterns = {"/db-test"})
+public class DBTestController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

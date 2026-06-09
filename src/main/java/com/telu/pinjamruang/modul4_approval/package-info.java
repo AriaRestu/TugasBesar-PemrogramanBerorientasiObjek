@@ -1,5 +1,5 @@
 /**
- * Modul 4 — Persetujuan & Admin (Anggota 4)
- * Alur approval PEMBINA → SSC → LOGAM_TUS, dashboard admin, laporan.
+ * Modul 4 — Approval (Aria)
+ * MVC: controller/ · model/ · dao/ · views/approval/
  */
 package com.telu.pinjamruang.modul4_approval;

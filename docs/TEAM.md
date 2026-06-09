@@ -7,21 +7,22 @@ Aplikasi **Pinjam Ruang Tel-U** — Java Servlet + JSP + MySQL (`db_pinjamruangt
 | Branch | Pemilik | Modul |
 |--------|---------|-------|
 | `main` | Semua | Branch stabil, hanya merge via Pull Request |
-| `feat/modul1-auth` | Anggota 1 | Autentikasi & pengguna |
-| `feat/modul2-ruang` | Anggota 2 | Ruang & jadwal |
-| `feat/modul3-peminjaman` | Anggota 3 | Pengajuan peminjaman |
-| `feat/modul4-approval` | Anggota 4 | Persetujuan & admin |
+| `feat/modul1-auth` | Gibran | Autentikasi & pengguna |
+| `feat/modul2-ruang` | Andra | Ruang & jadwal |
+| `feat/modul3-peminjaman` | Brian | Pengajuan peminjaman |
+| `feat/modul4-approval` | Aria | Persetujuan & admin |
 
 ## Pembagian Tugas
 
-### Anggota 1 — Autentikasi & Manajemen Pengguna
+### Gibran — Autentikasi & Manajemen Pengguna
 **Package:** `com.telu.pinjamruang.modul1_auth`
 
-| Tugas | File yang dibuat |
-|-------|------------------|
-| Halaman login & logout | `servlet/LoginServlet.java`, `jsp/login.jsp` |
-| Session & filter role | `filter/AuthFilter.java`, `util/SessionUtil.java` |
-| DAO pengguna | `dao/UserDAO.java`, `model/User.java` |
+| Layer | Tugas | File |
+|-------|-------|------|
+| Controller | Login & logout | `controller/LoginController.java` |
+| View | Halaman login | `WEB-INF/views/auth/login.jsp` |
+| Model | Entity user | `model/User.java` |
+| DAO | Akses DB user | `dao/UserDAO.java` |
 
 **Akun uji (dari database):**
 - PEMINJAM: `peminjam@telu.ac.id`
@@ -31,36 +32,39 @@ Aplikasi **Pinjam Ruang Tel-U** — Java Servlet + JSP + MySQL (`db_pinjamruangt
 
 ---
 
-### Anggota 2 — Manajemen Ruang & Jadwal
+### Andra — Manajemen Ruang & Jadwal
 **Package:** `com.telu.pinjamruang.modul2_ruang`
 
-| Tugas | File yang dibuat |
-|-------|------------------|
-| Daftar & detail ruang | `servlet/RuangServlet.java`, `jsp/ruang/list.jsp` |
-| Cek ketersediaan jadwal | `dao/JadwalDAO.java`, `dao/RuangDAO.java` |
-| Model ruang | `model/Ruang.java`, `model/Jadwal.java` |
+| Layer | Tugas | File |
+|-------|-------|------|
+| Controller | Daftar & jadwal ruang | `controller/RuangListController.java`, `RuangJadwalController.java` |
+| View | Halaman ruang | `WEB-INF/views/ruang/list.jsp`, `jadwal.jsp` |
+| Model | Entity ruang | `model/Ruang.java`, `Jadwal.java` |
+| DAO | Akses DB ruang | `dao/RuangDAO.java`, `JadwalDAO.java` |
 
 ---
 
-### Anggota 3 — Pengajuan Peminjaman
+### Brian — Pengajuan Peminjaman
 **Package:** `com.telu.pinjamruang.modul3_peminjaman`
 
-| Tugas | File yang dibuat |
-|-------|------------------|
-| Form pengajuan peminjaman | `servlet/PeminjamanServlet.java`, `jsp/peminjaman/form.jsp` |
-| Riwayat peminjaman | `jsp/peminjaman/riwayat.jsp` |
-| DAO peminjaman | `dao/PeminjamanDAO.java`, `model/Peminjaman.java` |
+| Layer | Tugas | File |
+|-------|-------|------|
+| Controller | Form & riwayat | `controller/PeminjamanFormController.java`, `PeminjamanRiwayatController.java` |
+| View | Halaman peminjaman | `WEB-INF/views/peminjaman/form.jsp`, `riwayat.jsp` |
+| Model | Entity pengajuan | `model/Peminjaman.java` |
+| DAO | Akses DB pengajuan | `dao/PeminjamanDAO.java` |
 
 ---
 
-### Anggota 4 — Persetujuan & Admin
+### Aria — Persetujuan & Admin
 **Package:** `com.telu.pinjamruang.modul4_approval`
 
-| Tugas | File yang dibuat |
-|-------|------------------|
-| Dashboard per role | `servlet/ApprovalServlet.java`, `jsp/approval/dashboard.jsp` |
-| Alur persetujuan bertingkat | `dao/ApprovalDAO.java`, `model/Approval.java` |
-| Laporan peminjaman | `jsp/approval/laporan.jsp` |
+| Layer | Tugas | File |
+|-------|-------|------|
+| Controller | Dashboard & laporan | `controller/ApprovalDashboardController.java`, `ApprovalLaporanController.java` |
+| View | Halaman approval | `WEB-INF/views/approval/dashboard.jsp`, `laporan.jsp` |
+| Model | Entity approval | `model/Approval.java` |
+| DAO | Akses DB approval | `dao/ApprovalDAO.java` |
 
 ---
 
@@ -89,10 +93,11 @@ git push -u origin feat/modul1-auth
 ## Aturan Kolaborasi
 
 1. **Jangan edit package orang lain** — kerjakan hanya di `modulX_*` Anda.
-2. **Shared code** (`config/`, `util/`, `dao/BaseDAO.java`) — diskusikan dulu di grup sebelum diubah.
+2. **Shared code** (`config/`, `util/`, `common/`) — diskusikan dulu di grup sebelum diubah.
 3. **Merge ke `main`** hanya lewat Pull Request, minimal 1 review dari anggota lain.
 4. **Commit message** format: `feat(modulX): deskripsi singkat`
-5. **Test koneksi DB** sebelum mulai: jalankan app lalu buka `http://localhost:8080/aplikasipinjamruangtelu/db-test`
+5. **Struktur MVC** — lihat `docs/MVC.md`
+6. **Test koneksi DB** sebelum mulai: `http://localhost:8080/db-test`
 
 ## Setup Awal (hari ini)
 

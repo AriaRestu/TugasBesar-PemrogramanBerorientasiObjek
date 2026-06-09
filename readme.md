@@ -5,17 +5,26 @@
 - Web server target: Apache Tomcat 10 (WAR packaging)
 - Database: MySQL (database: `db_pinjamruangtelu`)
 - Java: JDK 11+ (project compiled for Java 11)
+- Arsitektur: **MVC** (Model — View — Controller)
+
+## Arsitektur MVC
+
+| Layer | Lokasi |
+|-------|--------|
+| **Controller** | `modulX_*/controller/` (Servlet) |
+| **View** | `WEB-INF/views/` (JSP) |
+| **Model** | `modulX_*/model/` + `modulX_*/dao/` |
+
+Detail lengkap: [docs/MVC.md](docs/MVC.md)
 
 ## Tim & Pembagian Kerja
 
-Lihat [docs/TEAM.md](docs/TEAM.md) untuk pembagian 4 modul dan alur Git.
-
-| Anggota | Modul | Package |
-|---------|-------|---------|
-| 1 | Autentikasi & pengguna | `modul1_auth` |
-| 2 | Ruang & jadwal | `modul2_ruang` |
-| 3 | Pengajuan peminjaman | `modul3_peminjaman` |
-| 4 | Persetujuan & admin | `modul4_approval` |
+| Anggota | Modul                  | Package             |
+| ------- | ---------------------- | ------------------- |
+| Gibran  | Autentikasi & pengguna | `modul1_auth`       |
+| Andra   | Ruang & jadwal         | `modul2_ruang`      |
+| Brian   | Pengajuan peminjaman   | `modul3_peminjaman` |
+| Aria    | Persetujuan & admin    | `modul4_approval`   |
 
 ## Setup Database
 
@@ -24,7 +33,7 @@ cp src/main/resources/db.properties.example src/main/resources/db.properties
 # Edit db.properties — isi username & password MySQL
 ```
 
-Verifikasi: `http://localhost:8080/aplikasipinjamruangtelu/db-test`
+Verifikasi: `http://localhost:8080/login` · API: `http://localhost:8080/api/ping`
 
 ## Push ke GitHub
 

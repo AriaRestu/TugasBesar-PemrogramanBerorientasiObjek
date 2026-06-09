@@ -28,14 +28,34 @@ http://localhost:8080/aplikasipinjamruangtelu/db-test
 
 Halaman ini menampilkan status koneksi dan daftar tabel yang ada di database.
 
-## Tabel
+## Tabel (9 tabel)
 
-> Tabel sudah dibuat di database. Setelah koneksi berhasil, daftar tabel akan muncul otomatis di `/db-test`.
-> Dokumentasikan skema tabel di bawah ini setelah verifikasi.
+Skema lengkap: `docs/schema.sql` — jalankan ulang jika perlu reset:
+
+```bash
+mysql -u root -p < docs/schema.sql
+```
 
 | Tabel | Deskripsi | Modul terkait |
 |-------|-----------|---------------|
-| _(isi setelah cek /db-test)_ | | |
+| `users` | Pengguna & role (PEMINJAM, PEMBINA, SSC, LOGAM_TUS) | modul1_auth |
+| `ruangan` | Data ruang yang bisa dipinjam | modul2_ruang |
+| `pengajuan` | Pengajuan peminjaman ruang | modul3_peminjaman |
+| `logistik` | Master data logistik/alat | modul2_ruang |
+| `pengajuan_logistik` | Logistik per pengajuan | modul3_peminjaman |
+| `f01` | Form detail tipe F01 | modul3_peminjaman |
+| `f02` | Form detail tipe F02 | modul3_peminjaman |
+| `f03` | Output/surat hasil pengajuan | modul4_approval |
+| `notifikasi` | Notifikasi ke pengguna | modul4_approval |
+
+### Akun uji (sudah di-seed)
+
+| Role | Email | Password |
+|------|-------|----------|
+| PEMINJAM | peminjam@telu.ac.id | peminjam123 |
+| PEMBINA | pembina@telu.ac.id | pembina123 |
+| SSC | ssc@telu.ac.id | ssc123 |
+| LOGAM_TUS | logamtus@telu.ac.id | logamtus123 |
 
 ## Kelas koneksi bersama
 
