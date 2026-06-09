@@ -1,6 +1,6 @@
 package com.telu.pinjamruang.controller;
 
-import com.telu.pinjamruang.common.controller.BasePingController;
+import com.telu.pinjamruang.common.BasePingController;
 
 import jakarta.servlet.annotation.WebServlet;
 

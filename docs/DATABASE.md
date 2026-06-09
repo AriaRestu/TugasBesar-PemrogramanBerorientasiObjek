@@ -38,15 +38,15 @@ mysql -u root -p < docs/schema.sql
 
 | Tabel | Deskripsi | Modul terkait |
 |-------|-----------|---------------|
-| `users` | Pengguna & role (PEMINJAM, PEMBINA, SSC, LOGAM_TUS) | modul1_auth |
-| `ruangan` | Data ruang yang bisa dipinjam | modul2_ruang |
-| `pengajuan` | Pengajuan peminjaman ruang | modul3_peminjaman |
-| `logistik` | Master data logistik/alat | modul2_ruang |
-| `pengajuan_logistik` | Logistik per pengajuan | modul3_peminjaman |
-| `f01` | Form detail tipe F01 | modul3_peminjaman |
-| `f02` | Form detail tipe F02 | modul3_peminjaman |
-| `f03` | Output/surat hasil pengajuan | modul4_approval |
-| `notifikasi` | Notifikasi ke pengguna | modul4_approval |
+| `users` | Pengguna & role (PEMINJAM, PEMBINA, SSC, LOGAM_TUS) | auth |
+| `ruangan` | Data ruang yang bisa dipinjam | ruang |
+| `pengajuan` | Pengajuan peminjaman ruang | peminjaman |
+| `logistik` | Master data logistik/alat | ruang |
+| `pengajuan_logistik` | Logistik per pengajuan | peminjaman |
+| `f01` | Form detail tipe F01 | peminjaman |
+| `f02` | Form detail tipe F02 | peminjaman |
+| `f03` | Output/surat hasil pengajuan | approval |
+| `notifikasi` | Notifikasi ke pengguna | approval |
 
 ### Akun uji (sudah di-seed)
 

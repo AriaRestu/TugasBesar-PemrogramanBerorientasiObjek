@@ -11,20 +11,20 @@
 
 | Layer | Lokasi |
 |-------|--------|
-| **Controller** | `modulX_*/controller/` (Servlet) |
+| **Controller** | `controller/{fitur}/` (Servlet) |
 | **View** | `WEB-INF/views/` (JSP) |
-| **Model** | `modulX_*/model/` + `modulX_*/dao/` |
+| **Model** | `model/{fitur}/ + dao/{fitur}/` |
 
 Detail lengkap: [docs/MVC.md](docs/MVC.md)
 
 ## Tim & Pembagian Kerja
 
-| Anggota | Modul                  | Package             |
+| Anggota | Modul                  | Folder             |
 | ------- | ---------------------- | ------------------- |
-| Gibran  | Autentikasi & pengguna | `modul1_auth`       |
-| Andra   | Ruang & jadwal         | `modul2_ruang`      |
-| Brian   | Pengajuan peminjaman   | `modul3_peminjaman` |
-| Aria    | Persetujuan & admin    | `modul4_approval`   |
+| Gibran  | Autentikasi & pengguna | `auth/`       |
+| Andra   | Ruang & jadwal         | `ruang/`      |
+| Brian   | Pengajuan peminjaman   | `peminjaman/` |
+| Aria    | Persetujuan & admin    | `approval/`   |
 
 ## Setup Database
 

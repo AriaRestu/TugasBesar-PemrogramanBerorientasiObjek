@@ -15,7 +15,7 @@ Aplikasi **Pinjam Ruang Tel-U** — Java Servlet + JSP + MySQL (`db_pinjamruangt
 ## Pembagian Tugas
 
 ### Gibran — Autentikasi & Manajemen Pengguna
-**Package:** `com.telu.pinjamruang.modul1_auth`
+**Folder:** `controller/auth, model/auth, dao/auth`
 
 | Layer | Tugas | File |
 |-------|-------|------|
@@ -33,7 +33,7 @@ Aplikasi **Pinjam Ruang Tel-U** — Java Servlet + JSP + MySQL (`db_pinjamruangt
 ---
 
 ### Andra — Manajemen Ruang & Jadwal
-**Package:** `com.telu.pinjamruang.modul2_ruang`
+**Folder:** `controller/ruang, model/ruang, dao/ruang`
 
 | Layer | Tugas | File |
 |-------|-------|------|
@@ -45,7 +45,7 @@ Aplikasi **Pinjam Ruang Tel-U** — Java Servlet + JSP + MySQL (`db_pinjamruangt
 ---
 
 ### Brian — Pengajuan Peminjaman
-**Package:** `com.telu.pinjamruang.modul3_peminjaman`
+**Folder:** `controller/peminjaman, model/peminjaman, dao/peminjaman`
 
 | Layer | Tugas | File |
 |-------|-------|------|
@@ -57,7 +57,7 @@ Aplikasi **Pinjam Ruang Tel-U** — Java Servlet + JSP + MySQL (`db_pinjamruangt
 ---
 
 ### Aria — Persetujuan & Admin
-**Package:** `com.telu.pinjamruang.modul4_approval`
+**Folder:** `controller/approval, model/approval, dao/approval`
 
 | Layer | Tugas | File |
 |-------|-------|------|
@@ -92,7 +92,7 @@ git push -u origin feat/modul1-auth
 
 ## Aturan Kolaborasi
 
-1. **Jangan edit package orang lain** — kerjakan hanya di `modulX_*` Anda.
+1. **Jangan edit package orang lain** — kerjakan hanya di folder fitur Anda (auth, ruang, peminjaman, approval).
 2. **Shared code** (`config/`, `util/`, `common/`) — diskusikan dulu di grup sebelum diubah.
 3. **Merge ke `main`** hanya lewat Pull Request, minimal 1 review dari anggota lain.
 4. **Commit message** format: `feat(modulX): deskripsi singkat`
@@ -102,7 +102,7 @@ git push -u origin feat/modul1-auth
 ## Setup Awal (hari ini)
 
 - [x] Struktur Maven + JDBC connection
-- [x] Package per modul (4 anggota)
+- [x] Folder per fitur (4 anggota)
 - [x] Servlet test koneksi database (`/db-test`)
 - [ ] Push ke GitHub (lihat `docs/GITHUB_SETUP.md`)
 - [ ] Setiap anggota clone & buat branch modul
