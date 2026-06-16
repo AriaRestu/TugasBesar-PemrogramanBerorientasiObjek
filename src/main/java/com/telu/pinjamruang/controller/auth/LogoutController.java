@@ -1,24 +1,31 @@
 package com.telu.pinjamruang.controller.auth;
 
-import com.telu.pinjamruang.common.BasePingController;
-
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "AuthPingController", urlPatterns = {"/api/auth/ping"})
-public class AuthPingController extends BasePingController {
+import java.io.IOException;
 
-    @Override
-    protected String getModule() {
-        return "auth";
-    }
-
-    @Override
-    protected String getOwner() {
-        return "Gibran";
-    }
+@WebServlet("/logout")
+public class LogoutController extends HttpServlet {
 
     @Override
-    protected String getMessage() {
-        return "API modul autentikasi siap";
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws IOException {
+
+        HttpSession session =
+                request.getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+        }
+
+        response.sendRedirect(
+                request.getContextPath()
+                        + "/login");
     }
 }

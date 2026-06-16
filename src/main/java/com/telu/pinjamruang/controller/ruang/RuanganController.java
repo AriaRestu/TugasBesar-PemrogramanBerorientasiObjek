@@ -1,24 +1,22 @@
 package com.telu.pinjamruang.controller.ruang;
 
-import com.telu.pinjamruang.common.BasePingController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "RuangPingController", urlPatterns = {"/api/ruang/ping"})
-public class RuangPingController extends BasePingController {
+import java.io.IOException;
 
-    @Override
-    protected String getModule() {
-        return "ruang";
-    }
+@WebServlet("/ruangan")
+public class RuanganController extends HttpServlet {
 
     @Override
-    protected String getOwner() {
-        return "Andra";
-    }
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
-    @Override
-    protected String getMessage() {
-        return "API modul ruang & jadwal siap";
+        request.getRequestDispatcher(
+                "/WEB-INF/views/ruang/ruangan.jsp")
+                .forward(request, response);
     }
 }

@@ -1,13 +1,22 @@
 package com.telu.pinjamruang.controller.peminjaman;
 
-import com.telu.pinjamruang.common.BaseViewController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "PeminjamanFormController", urlPatterns = {"/peminjaman/form"})
-public class PeminjamanFormController extends BaseViewController {
+import java.io.IOException;
 
-    public PeminjamanFormController() {
-        super("/WEB-INF/views/peminjaman/form.jsp");
+@WebServlet("/pengajuan")
+public class PengajuanController extends HttpServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher(
+                "/WEB-INF/views/peminjaman/create.jsp")
+                .forward(request, response);
     }
 }

@@ -1,24 +1,22 @@
 package com.telu.pinjamruang.controller.approval;
 
-import com.telu.pinjamruang.common.BasePingController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "ApprovalPingController", urlPatterns = {"/api/approval/ping"})
-public class ApprovalPingController extends BasePingController {
+import java.io.IOException;
 
-    @Override
-    protected String getModule() {
-        return "approval";
-    }
+@WebServlet("/approval/ssc")
+public class ApprovalSSCController extends HttpServlet {
 
     @Override
-    protected String getOwner() {
-        return "Aria";
-    }
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
-    @Override
-    protected String getMessage() {
-        return "API modul approval siap";
+        request.getRequestDispatcher(
+                "/WEB-INF/views/approval/ssc.jsp")
+                .forward(request, response);
     }
 }

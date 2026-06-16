@@ -1,13 +1,22 @@
 package com.telu.pinjamruang.controller.ruang;
 
-import com.telu.pinjamruang.common.BaseViewController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "RuangJadwalController", urlPatterns = {"/ruang/jadwal"})
-public class RuangJadwalController extends BaseViewController {
+import java.io.IOException;
 
-    public RuangJadwalController() {
-        super("/WEB-INF/views/ruang/jadwal.jsp");
+@WebServlet("/logistik")
+public class LogistikController extends HttpServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher(
+                "/WEB-INF/views/ruang/logistik.jsp")
+                .forward(request, response);
     }
 }

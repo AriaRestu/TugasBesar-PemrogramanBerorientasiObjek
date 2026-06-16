@@ -1,13 +1,22 @@
 package com.telu.pinjamruang.controller.peminjaman;
 
-import com.telu.pinjamruang.common.BaseViewController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "PeminjamanRiwayatController", urlPatterns = {"/peminjaman/riwayat"})
-public class PeminjamanRiwayatController extends BaseViewController {
+import java.io.IOException;
 
-    public PeminjamanRiwayatController() {
-        super("/WEB-INF/views/peminjaman/riwayat.jsp");
+@WebServlet("/detail-pengajuan")
+public class DetailPengajuanController extends HttpServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher(
+                "/WEB-INF/views/peminjaman/detail.jsp")
+                .forward(request, response);
     }
 }

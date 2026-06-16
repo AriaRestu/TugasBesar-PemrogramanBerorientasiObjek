@@ -2,14 +2,12 @@ package com.telu.pinjamruang.controller;
 
 import com.telu.pinjamruang.util.DBConnection;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 
 @WebServlet("/db-test")
@@ -19,33 +17,32 @@ public class DBTestController extends HttpServlet {
     protected void doGet(
             HttpServletRequest request,
             HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
 
         response.setContentType("text/html");
 
-        try (
-                Connection connection =
-                        DBConnection.getConnection();
+        try {
 
-                PrintWriter out =
-                        response.getWriter()
-        ) {
+            Connection connection =
+                    DBConnection.getConnection();
 
-            out.println("<h1>Database Connected Successfully</h1>");
+            response.getWriter().println(
+                    "<h2>Database Connected Successfully</h2>");
 
-            out.println("<p>");
-            out.println(connection.getCatalog());
-            out.println("</p>");
+            response.getWriter().println(
+                    "<p>Database : "
+                            + connection.getCatalog()
+                            + "</p>");
+
+            connection.close();
 
         } catch (Exception e) {
 
             response.getWriter().println(
-                    "<h1>Database Connection Failed</h1>"
-            );
+                    "<h2>Database Connection Failed</h2>");
 
             response.getWriter().println(
-                    e.getMessage()
-            );
+                    "<pre>" + e.getMessage() + "</pre>");
         }
     }
 }

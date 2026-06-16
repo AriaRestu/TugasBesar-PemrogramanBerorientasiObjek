@@ -1,13 +1,24 @@
 package com.telu.pinjamruang.controller;
 
-import com.telu.pinjamruang.common.BaseViewController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
-public class HomeController extends BaseViewController {
+import java.io.IOException;
 
-    public HomeController() {
-        super("/WEB-INF/views/home.jsp");
+@WebServlet("/home")
+public class HomeController extends HttpServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher(
+                "/WEB-INF/views/home.jsp")
+                .forward(request, response);
     }
 }

@@ -1,24 +1,24 @@
 package com.telu.pinjamruang.controller;
 
-import com.telu.pinjamruang.common.BasePingController;
-
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "AppPingController", urlPatterns = {"/api/ping"})
-public class AppPingController extends BasePingController {
+import java.io.IOException;
 
-    @Override
-    protected String getModule() {
-        return "app";
-    }
-
-    @Override
-    protected String getOwner() {
-        return "tim";
-    }
+@WebServlet("/ping")
+public class AppPingController extends HttpServlet {
 
     @Override
-    protected String getMessage() {
-        return "API aplikasi Pinjam Ruang Tel-U siap";
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws IOException {
+
+        response.setContentType("text/plain");
+
+        response.getWriter().println(
+                "Application Running Successfully");
     }
 }

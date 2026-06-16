@@ -1,13 +1,22 @@
 package com.telu.pinjamruang.controller.approval;
 
-import com.telu.pinjamruang.common.BaseViewController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "ApprovalLaporanController", urlPatterns = {"/approval/laporan"})
-public class ApprovalLaporanController extends BaseViewController {
+import java.io.IOException;
 
-    public ApprovalLaporanController() {
-        super("/WEB-INF/views/approval/laporan.jsp");
+@WebServlet("/approval/logamtus")
+public class ApprovalLogamTusController extends HttpServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher(
+                "/WEB-INF/views/approval/logamtus.jsp")
+                .forward(request, response);
     }
 }

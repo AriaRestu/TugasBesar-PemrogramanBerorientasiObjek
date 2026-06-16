@@ -1,13 +1,22 @@
 package com.telu.pinjamruang.controller.approval;
 
-import com.telu.pinjamruang.common.BaseViewController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "ApprovalDashboardController", urlPatterns = {"/approval/dashboard"})
-public class ApprovalDashboardController extends BaseViewController {
+import java.io.IOException;
 
-    public ApprovalDashboardController() {
-        super("/WEB-INF/views/approval/dashboard.jsp");
+@WebServlet("/approval/pembina")
+public class ApprovalPembinaController extends HttpServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher(
+                "/WEB-INF/views/approval/pembina.jsp")
+                .forward(request, response);
     }
 }

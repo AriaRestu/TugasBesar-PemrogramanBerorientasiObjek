@@ -1,24 +1,22 @@
 package com.telu.pinjamruang.controller.peminjaman;
 
-import com.telu.pinjamruang.common.BasePingController;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
-@WebServlet(name = "PeminjamanPingController", urlPatterns = {"/api/peminjaman/ping"})
-public class PeminjamanPingController extends BasePingController {
+import java.io.IOException;
 
-    @Override
-    protected String getModule() {
-        return "peminjaman";
-    }
+@WebServlet("/riwayat")
+public class RiwayatPengajuanController extends HttpServlet {
 
     @Override
-    protected String getOwner() {
-        return "Brian";
-    }
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
-    @Override
-    protected String getMessage() {
-        return "API modul peminjaman siap";
+        request.getRequestDispatcher(
+                "/WEB-INF/views/peminjaman/riwayat.jsp")
+                .forward(request, response);
     }
 }
