@@ -1,19 +1,95 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="/WEB-INF/views/fragments/layout-start.jsp">
-  <jsp:param name="pageTitle" value="Ajukan Peminjaman" />
-</jsp:include>
-<jsp:include page="/WEB-INF/views/fragments/nav.jsp" />
 
-<main class="app-main">
-  <div class="card">
-    <h1>Ajukan Peminjaman <span class="badge">Brian — modul3_peminjaman</span></h1>
-    <p>Form pengajuan peminjaman ruang.</p>
-    <div class="placeholder">
-      MVC: <code>PeminjamanFormController</code> → view ini.
-      API ping: <a href="${pageContext.request.contextPath}/api/peminjaman/ping">/api/peminjaman/ping</a>
+<jsp:include page="/WEB-INF/views/fragments/header.jsp"/>
+<jsp:include page="/WEB-INF/views/fragments/navbar.jsp"/>
+
+<div class="container">
+
+    <h1>Pengajuan Peminjaman</h1>
+
+    <div class="card">
+
+        <form action="#" method="post">
+
+            <div class="form-group">
+                <label>Jenis Pengajuan</label>
+
+                <select name="jenisPengajuan">
+
+                    <option value="RUANGAN">
+                        Ruangan
+                    </option>
+
+                    <option value="LOGISTIK">
+                        Logistik
+                    </option>
+
+                    <option value="RUANGAN_LOGISTIK">
+                        Ruangan + Logistik
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nama Kegiatan</label>
+
+                <input
+                        type="text"
+                        name="keperluan"
+                        placeholder="Masukkan nama kegiatan">
+            </div>
+
+            <div class="form-group">
+                <label>Ruangan</label>
+
+                <select name="ruanganId">
+                    <option>Pilih Ruangan</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal Peminjaman</label>
+
+                <input
+                        type="date"
+                        name="tanggalPinjam">
+            </div>
+
+            <div class="form-group">
+                <label>Waktu Mulai</label>
+
+                <input
+                        type="time"
+                        name="waktuMulai">
+            </div>
+
+            <div class="form-group">
+                <label>Waktu Selesai</label>
+
+                <input
+                        type="time"
+                        name="waktuSelesai">
+            </div>
+
+            <div class="form-group">
+                <label>Catatan</label>
+
+                <textarea
+                        name="catatan"
+                        rows="4"></textarea>
+            </div>
+
+            <button
+                    type="submit"
+                    class="btn btn-primary">
+                Ajukan Peminjaman
+            </button>
+
+        </form>
+
     </div>
-  </div>
-</main>
 
-<jsp:include page="/WEB-INF/views/fragments/layout-end.jsp" />
+</div>
+
+<jsp:include page="/WEB-INF/views/fragments/footer.jsp"/>

@@ -1,18 +1,60 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="/WEB-INF/views/fragments/layout-start.jsp">
-  <jsp:param name="pageTitle" value="Jadwal Ruang" />
-</jsp:include>
-<jsp:include page="/WEB-INF/views/fragments/nav.jsp" />
 
-<main class="app-main">
-  <div class="card">
-    <h1>Jadwal Ruang <span class="badge">Andra — modul2_ruang</span></h1>
-    <p>Halaman cek ketersediaan jadwal ruang.</p>
-    <div class="placeholder">
-      MVC: <code>RuangJadwalController</code> → view ini.
+<jsp:include page="/WEB-INF/views/fragments/header.jsp"/>
+<jsp:include page="/WEB-INF/views/fragments/navbar.jsp"/>
+
+<div class="container">
+
+    <h1>Daftar Ruangan</h1>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>Nama Ruangan</th>
+                <th>Jenis</th>
+                <th>Kapasitas</th>
+                <th>Lokasi</th>
+                <th>Aksi</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <!-- Dummy Data -->
+
+            <tr>
+                <td>Aula Utama</td>
+                <td>Auditorium</td>
+                <td>300</td>
+                <td>Gedung A</td>
+                <td>
+                    <a href="#" class="btn btn-primary">
+                        Detail
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Kelas A Lantai 1</td>
+                <td>Kelas</td>
+                <td>40</td>
+                <td>Gedung D Lt.1</td>
+                <td>
+                    <a href="#" class="btn btn-primary">
+                        Detail
+                    </a>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
     </div>
-  </div>
-</main>
 
-<jsp:include page="/WEB-INF/views/fragments/layout-end.jsp" />
+</div>
+
+<jsp:include page="/WEB-INF/views/fragments/footer.jsp"/>

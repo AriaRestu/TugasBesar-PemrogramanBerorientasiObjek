@@ -1,19 +1,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="/WEB-INF/views/fragments/layout-start.jsp">
-  <jsp:param name="pageTitle" value="Dashboard Approval" />
-</jsp:include>
-<jsp:include page="/WEB-INF/views/fragments/nav.jsp" />
 
-<main class="app-main">
-  <div class="card">
-    <h1>Dashboard Approval <span class="badge">Aria — modul4_approval</span></h1>
-    <p>Dashboard persetujuan per role (PEMBINA, SSC, LOGAM_TUS).</p>
-    <div class="placeholder">
-      MVC: <code>ApprovalDashboardController</code> → view ini.
-      API ping: <a href="${pageContext.request.contextPath}/api/approval/ping">/api/approval/ping</a>
+<jsp:include page="/WEB-INF/views/fragments/header.jsp"/>
+<jsp:include page="/WEB-INF/views/fragments/navbar.jsp"/>
+
+<div class="container">
+
+    <h1>Approval Pembina</h1>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>No Tiket</th>
+                <th>Nama Kegiatan</th>
+                <th>Tanggal</th>
+                <th>Peminjam</th>
+                <th>Aksi</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr>
+                <td>TKT-001</td>
+                <td>Seminar Teknologi</td>
+                <td>20/06/2025</td>
+                <td>Mahasiswa A</td>
+
+                <td>
+                    <button class="btn btn-success">
+                        Setujui
+                    </button>
+
+                    <button class="btn btn-danger">
+                        Tolak
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
     </div>
-  </div>
-</main>
 
-<jsp:include page="/WEB-INF/views/fragments/layout-end.jsp" />
+</div>
+
+<jsp:include page="/WEB-INF/views/fragments/footer.jsp"/>

@@ -1,38 +1,54 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<c:set var="path" value="${pageContext.request.servletPath}" />
 
-<header class="app-header">
-  <a class="app-brand" href="${ctx}/home">Pinjam Ruang Tel-U</a>
+<aside class="sidebar">
 
-  <nav class="app-nav">
-    <a href="${ctx}/home" class="${path == '/home' ? 'active' : ''}">Beranda</a>
+    <ul>
 
-    <details>
-      <summary>Ruang</summary>
-      <ul>
-        <li><a href="${ctx}/ruang/list" class="${path == '/ruang/list' ? 'active' : ''}">Daftar Ruang</a></li>
-        <li><a href="${ctx}/ruang/jadwal" class="${path == '/ruang/jadwal' ? 'active' : ''}">Jadwal</a></li>
-      </ul>
-    </details>
+        <li>
+            <a href="${ctx}/home">
+                Dashboard
+            </a>
+        </li>
 
-    <details>
-      <summary>Peminjaman</summary>
-      <ul>
-        <li><a href="${ctx}/peminjaman/form" class="${path == '/peminjaman/form' ? 'active' : ''}">Ajukan Peminjaman</a></li>
-        <li><a href="${ctx}/peminjaman/riwayat" class="${path == '/peminjaman/riwayat' ? 'active' : ''}">Riwayat</a></li>
-      </ul>
-    </details>
+        <li>
+            <a href="${ctx}/ruangan">
+                Daftar Ruangan
+            </a>
+        </li>
 
-    <details>
-      <summary>Approval</summary>
-      <ul>
-        <li><a href="${ctx}/approval/dashboard" class="${path == '/approval/dashboard' ? 'active' : ''}">Dashboard</a></li>
-        <li><a href="${ctx}/approval/laporan" class="${path == '/approval/laporan' ? 'active' : ''}">Laporan</a></li>
-      </ul>
-    </details>
+        <li>
+            <a href="${ctx}/logistik">
+                Daftar Logistik
+            </a>
+        </li>
 
-    <a href="${ctx}/logout">Logout</a>
-  </nav>
-</header>
+        <li>
+            <a href="${ctx}/pengajuan">
+                Pengajuan
+            </a>
+        </li>
+
+        <li>
+            <a href="${ctx}/riwayat">
+                Riwayat Pengajuan
+            </a>
+        </li>
+
+        <li>
+            <a href="${ctx}/notifikasi">
+                Notifikasi
+            </a>
+        </li>
+
+        <li>
+            <a href="${ctx}/logout">
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</aside>

@@ -1,19 +1,73 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="/WEB-INF/views/fragments/layout-start.jsp">
-  <jsp:param name="pageTitle" value="Beranda" />
-</jsp:include>
-<jsp:include page="/WEB-INF/views/fragments/nav.jsp" />
 
-<main class="app-main">
-  <div class="card">
-    <h1>Beranda <span class="badge">Gibran — modul1_auth</span></h1>
-    <p>Selamat datang di aplikasi Pinjam Ruang Tel-U.</p>
-    <div class="placeholder">
-      MVC: <code>HomeController</code> → view ini.
-      API ping: <a href="${pageContext.request.contextPath}/api/ping">/api/ping</a>
+<jsp:include page="/WEB-INF/views/fragments/header.jsp"/>
+<jsp:include page="/WEB-INF/views/fragments/navbar.jsp"/>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Selamat Datang</h1>
+
+        <p>
+            Sistem Peminjaman Ruangan dan Logistik
+            Telkom University.
+        </p>
+
+        <p>
+            Melalui sistem ini pengguna dapat:
+        </p>
+
+        <ul>
+            <li>Mengajukan peminjaman ruangan.</li>
+            <li>Mengajukan peminjaman logistik.</li>
+            <li>Memantau status pengajuan.</li>
+            <li>Menerima notifikasi proses approval.</li>
+            <li>Mengunduh surat F03 setelah disetujui.</li>
+        </ul>
+
     </div>
-  </div>
-</main>
 
-<jsp:include page="/WEB-INF/views/fragments/layout-end.jsp" />
+    <div class="dashboard-grid">
+
+        <div class="card">
+            <h3>Daftar Ruangan</h3>
+            <p>
+                Lihat ruangan yang tersedia untuk dipinjam.
+            </p>
+
+            <a href="${pageContext.request.contextPath}/ruangan"
+               class="btn btn-primary">
+                Lihat Ruangan
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>Daftar Logistik</h3>
+            <p>
+                Lihat logistik yang tersedia untuk dipinjam.
+            </p>
+
+            <a href="${pageContext.request.contextPath}/logistik"
+               class="btn btn-primary">
+                Lihat Logistik
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>Pengajuan</h3>
+            <p>
+                Buat pengajuan peminjaman baru.
+            </p>
+
+            <a href="${pageContext.request.contextPath}/pengajuan"
+               class="btn btn-primary">
+                Ajukan Sekarang
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<jsp:include page="/WEB-INF/views/fragments/footer.jsp"/>

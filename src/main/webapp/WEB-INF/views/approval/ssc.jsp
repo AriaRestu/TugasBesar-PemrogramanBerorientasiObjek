@@ -1,18 +1,47 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<jsp:include page="/WEB-INF/views/fragments/layout-start.jsp">
-  <jsp:param name="pageTitle" value="Laporan" />
-</jsp:include>
-<jsp:include page="/WEB-INF/views/fragments/nav.jsp" />
 
-<main class="app-main">
-  <div class="card">
-    <h1>Laporan <span class="badge">Aria — modul4_approval</span></h1>
-    <p>Laporan peminjaman ruang.</p>
-    <div class="placeholder">
-      MVC: <code>ApprovalLaporanController</code> → view ini.
+<jsp:include page="/WEB-INF/views/fragments/header.jsp"/>
+<jsp:include page="/WEB-INF/views/fragments/navbar.jsp"/>
+
+<div class="container">
+
+    <h1>Verifikasi SSC</h1>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>No Tiket</th>
+                <th>Kegiatan</th>
+                <th>Peminjam</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr>
+                <td>TKT-001</td>
+                <td>Seminar Teknologi</td>
+                <td>Mahasiswa A</td>
+                <td>DISETUJUI PEMBINA</td>
+
+                <td>
+                    <button class="btn btn-primary">
+                        Teruskan ke Logam TUS
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
     </div>
-  </div>
-</main>
 
-<jsp:include page="/WEB-INF/views/fragments/layout-end.jsp" />
+</div>
+
+<jsp:include page="/WEB-INF/views/fragments/footer.jsp"/>
