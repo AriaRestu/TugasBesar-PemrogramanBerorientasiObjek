@@ -3,7 +3,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-<nav class="navbar">
+<nav class="app-nav">
 
     <a href="${ctx}/home">
         Dashboard
