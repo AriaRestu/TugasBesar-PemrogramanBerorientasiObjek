@@ -12,7 +12,7 @@ public class DatabaseConfig {
             "root";
 
     public static final String PASSWORD =
-            "root123";
+            "marsyafa665";
 
     private DatabaseConfig() {
         // Prevent Instantiation
