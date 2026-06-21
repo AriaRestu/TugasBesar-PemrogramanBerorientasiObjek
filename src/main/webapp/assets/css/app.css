@@ -237,3 +237,242 @@ a:hover {
 .dashboard-grid .card p {
   margin-bottom: 1rem;
 }
+
+/* ========================================================= */
+/* NEW LOGIN PAGE STYLES (Matching Mockup) */
+/* ========================================================= */
+
+body.login-body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f4f6f8;
+    position: relative;
+    overflow-x: hidden;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+.login-bg-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background-color: #9b1519;
+    z-index: 0;
+}
+
+.login-bg-bottom {
+    position: absolute;
+    top: 50vh;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background-color: #f4f6f8;
+    z-index: 0;
+}
+
+.watermark {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    opacity: 0.05;
+    font-size: 35rem;
+    color: #9b1519;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.login-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8vh;
+}
+
+.login-header-logo {
+    text-align: center;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.logo-icon {
+    font-size: 2.8rem;
+}
+
+.logo-text {
+    text-align: left;
+    line-height: 1.1;
+}
+
+.logo-text div:first-child {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.logo-text div:not(:first-child) {
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.login-header-logo h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.5px;
+}
+
+.login-header-logo p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.login-card-ui {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    padding: 2rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.login-card-ui h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: #111;
+    font-weight: 600;
+}
+
+.form-group-ui {
+    margin-bottom: 1.2rem;
+    position: relative;
+}
+
+.form-group-ui .input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 1rem;
+}
+
+.form-group-ui input,
+.form-group-ui select {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #333;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    appearance: none;
+    background: white;
+}
+
+.form-group-ui input:focus,
+.form-group-ui select:focus {
+    outline: none;
+    border-color: #9b1519;
+}
+
+.form-group-ui .input-icon-right {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+}
+
+.forgot-password a {
+    color: #9b1519;
+    text-decoration: none;
+}
+
+.btn-login {
+    width: 100%;
+    background: #9b1519;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background 0.2s;
+}
+
+.btn-login:hover {
+    background: #801013;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+}
+
+.remember-me input {
+    margin-right: 0.5rem;
+    accent-color: #9b1519;
+}
+
+.login-footer-text {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #444;
+}
+
+.login-footer-text a {
+    color: #9b1519;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #801013;
+    color: #f1f1f1;
+    padding: 0.8rem 2rem;
+    font-size: 0.85rem;
+    z-index: 1;
+}
+
+.error-alert {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border: 1px solid #f87171;
+}

@@ -16,12 +16,13 @@ public class DBConnection {
         try {
 
             Class.forName(DatabaseConfig.DRIVER);
-
-            return DriverManager.getConnection(
+            Connection connection = DriverManager.getConnection(
                     DatabaseConfig.URL,
                     DatabaseConfig.USERNAME,
                     DatabaseConfig.PASSWORD
             );
+            System.out.println("Berhasil terhubung ke database: " + DatabaseConfig.URL);
+            return connection;
 
         } catch (ClassNotFoundException | SQLException e) {
 
