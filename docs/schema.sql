@@ -28,18 +28,28 @@ CREATE TABLE IF NOT EXISTS ruangan (
 
 CREATE TABLE IF NOT EXISTS pengajuan (
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     user_id INT NOT NULL,
-    ruangan_id INT NOT NULL,
+    ruangan_id INT NULL,
+
     no_tiket VARCHAR(50) NOT NULL UNIQUE,
+
+    jenis_pengajuan ENUM('RUANGAN', 'LOGISTIK', 'RUANGAN_LOGISTIK') NOT NULL,
+
     tanggal_pengajuan DATETIME DEFAULT CURRENT_TIMESTAMP,
+
     tanggal_pinjam DATE NOT NULL,
     waktu_mulai TIME NOT NULL,
     waktu_selesai TIME NOT NULL,
+
     keperluan VARCHAR(255) NOT NULL,
     catatan TEXT,
-    status ENUM('DRAFT', 'DIAJUKAN', 'DISETUJUI_PEMBINA', 'DISETUJUI_SSC', 'DISETUJUI_LOGAM_TUS', 'DITOLAK', 'SELESAI') DEFAULT 'DRAFT',
+    status ENUM('DRAFT', 'MENUNGGU_PEMBINA', 'MENUNGGU_SSC', 'MENUNGGU_LOGAM_TUS', 'DISETUJUI', 'DITOLAK', 'SELESAI') DEFAULT 'DRAFT',
+
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (ruangan_id) REFERENCES ruangan(id)
+    FOREIGN KEY (ruangan_id) 
+    REFERENCES ruangan(id)
+    ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS logistik (
@@ -54,39 +64,120 @@ CREATE TABLE IF NOT EXISTS logistik (
 
 CREATE TABLE IF NOT EXISTS pengajuan_logistik (
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     pengajuan_id INT NOT NULL,
     logistik_id INT NOT NULL,
+
     jumlah INT NOT NULL DEFAULT 1,
-    FOREIGN KEY (pengajuan_id) REFERENCES pengajuan(id) ON DELETE CASCADE,
-    FOREIGN KEY (logistik_id) REFERENCES logistik(id)
+    keterangan VARCHAR(255),
+
+    FOREIGN KEY (pengajuan_id)
+        REFERENCES pengajuan(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (logistik_id)
+        REFERENCES logistik(id)
 );
 
 CREATE TABLE IF NOT EXISTS f01 (
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     pengajuan_id INT NOT NULL UNIQUE,
-    data_kegiatan VARCHAR(255),
-    penanggung_jawab VARCHAR(100),
+
+    nama_ormawa VARCHAR(100) NOT NULL,
+    nama_ketua_pelaksana VARCHAR(100) NOT NULL,
+    nim VARCHAR(20) NOT NULL,
+    program_studi VARCHAR(100) NOT NULL,
+    no_handphone VARCHAR(20) NOT NULL,
+
+    nama_kegiatan VARCHAR(200) NOT NULL,
+    tanggal_kegiatan DATE NOT NULL,
+    tempat_kegiatan VARCHAR(150) NOT NULL,
+
+    waktu_mulai TIME NOT NULL,
+    waktu_selesai TIME NOT NULL,
+
+    total_peserta INT NOT NULL,
+
+    catatan TEXT,
+
     file_path VARCHAR(255),
-    FOREIGN KEY (pengajuan_id) REFERENCES pengajuan(id) ON DELETE CASCADE
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (pengajuan_id)
+        REFERENCES pengajuan(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS f02 (
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     pengajuan_id INT NOT NULL UNIQUE,
-    jumlah_peserta INT,
-    email_ormawa VARCHAR(100),
-    kontak VARCHAR(50),
+
+    catatan TEXT,
+
     file_path VARCHAR(255),
-    FOREIGN KEY (pengajuan_id) REFERENCES pengajuan(id) ON DELETE CASCADE
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (pengajuan_id)
+        REFERENCES pengajuan(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS f03 (
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     pengajuan_id INT NOT NULL UNIQUE,
-    no_tiket VARCHAR(50),
-    file_pdf VARCHAR(255),
+
+    no_tiket VARCHAR(50) NOT NULL UNIQUE,
+
     tanggal_terbit DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (pengajuan_id) REFERENCES pengajuan(id) ON DELETE CASCADE
+
+    diterbitkan_oleh INT,
+
+    file_pdf VARCHAR(255) NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (pengajuan_id)
+        REFERENCES pengajuan(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (diterbitkan_oleh)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS approval (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    pengajuan_id INT NOT NULL,
+    approver_id INT NOT NULL,
+
+    role_approver ENUM(
+        'PEMBINA',
+        'SSC',
+        'LOGAM_TUS'
+    ) NOT NULL,
+
+    status ENUM(
+        'MENUNGGU',
+        'DISETUJUI',
+        'DITOLAK'
+    ) NOT NULL,
+
+    catatan TEXT,
+
+    tanggal_approval DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (pengajuan_id)
+        REFERENCES pengajuan(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (approver_id)
+        REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS notifikasi (

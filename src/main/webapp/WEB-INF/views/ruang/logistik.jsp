@@ -8,7 +8,7 @@
 
 <div class="container">
 
-    <h1>Riwayat Pengajuan</h1>
+    <h1>Daftar Logistik</h1>
 
     <div class="card">
 
@@ -16,10 +16,9 @@
 
             <thead>
             <tr>
-                <th>No Tiket</th>
-                <th>Kegiatan</th>
-                <th>Tanggal</th>
-                <th>Status</th>
+                <th>Nama Logistik</th>
+                <th>Kategori</th>
+                <th>Jumlah Tersedia</th>
                 <th>Aksi</th>
             </tr>
             </thead>
@@ -27,10 +26,9 @@
             <tbody>
 
             <tr>
-                <td>TKT-001</td>
-                <td>Seminar AI</td>
-                <td>20/06/2025</td>
-                <td>MENUNGGU_SSC</td>
+                <td>Proyektor</td>
+                <td>Elektronik</td>
+                <td>10</td>
                 <td>
                     <a href="#" class="btn btn-primary">
                         Detail
@@ -39,10 +37,9 @@
             </tr>
 
             <tr>
-                <td>TKT-002</td>
-                <td>Workshop UI/UX</td>
-                <td>25/06/2025</td>
-                <td>DISETUJUI</td>
+                <td>Sound System</td>
+                <td>Audio</td>
+                <td>5</td>
                 <td>
                     <a href="#" class="btn btn-primary">
                         Detail

@@ -8,7 +8,7 @@
 
 <div class="container">
 
-    <h1>Riwayat Pengajuan</h1>
+    <h1>Verifikasi SSC</h1>
 
     <div class="card">
 
@@ -18,7 +18,7 @@
             <tr>
                 <th>No Tiket</th>
                 <th>Kegiatan</th>
-                <th>Tanggal</th>
+                <th>Peminjam</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
@@ -28,25 +28,14 @@
 
             <tr>
                 <td>TKT-001</td>
-                <td>Seminar AI</td>
-                <td>20/06/2025</td>
-                <td>MENUNGGU_SSC</td>
-                <td>
-                    <a href="#" class="btn btn-primary">
-                        Detail
-                    </a>
-                </td>
-            </tr>
+                <td>Seminar Teknologi</td>
+                <td>Mahasiswa A</td>
+                <td>DISETUJUI PEMBINA</td>
 
-            <tr>
-                <td>TKT-002</td>
-                <td>Workshop UI/UX</td>
-                <td>25/06/2025</td>
-                <td>DISETUJUI</td>
                 <td>
-                    <a href="#" class="btn btn-primary">
-                        Detail
-                    </a>
+                    <button class="btn btn-primary">
+                        Teruskan ke Logam TUS
+                    </button>
                 </td>
             </tr>
 

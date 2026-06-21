@@ -1,15 +1,13 @@
-package com.telu.pinjamruang.controller;
+package com.telu.pinjamruang.controller.approval;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-@WebServlet("/home")
-public class HomeController extends HttpServlet {
+@WebServlet("/approval/pembina")
+public class ApprovalPembinaController extends HttpServlet {
 
     @Override
     protected void doGet(
@@ -18,7 +16,7 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
 
         request.getRequestDispatcher(
-                "/WEB-INF/views/home.jsp")
+                "/WEB-INF/views/approval/pembina.jsp")
                 .forward(request, response);
     }
 }

@@ -8,7 +8,7 @@
 
 <div class="container">
 
-    <h1>Riwayat Pengajuan</h1>
+    <h1>Daftar Ruangan</h1>
 
     <div class="card">
 
@@ -16,21 +16,23 @@
 
             <thead>
             <tr>
-                <th>No Tiket</th>
-                <th>Kegiatan</th>
-                <th>Tanggal</th>
-                <th>Status</th>
+                <th>Nama Ruangan</th>
+                <th>Jenis</th>
+                <th>Kapasitas</th>
+                <th>Lokasi</th>
                 <th>Aksi</th>
             </tr>
             </thead>
 
             <tbody>
 
+            <!-- Dummy Data -->
+
             <tr>
-                <td>TKT-001</td>
-                <td>Seminar AI</td>
-                <td>20/06/2025</td>
-                <td>MENUNGGU_SSC</td>
+                <td>Aula Utama</td>
+                <td>Auditorium</td>
+                <td>300</td>
+                <td>Gedung A</td>
                 <td>
                     <a href="#" class="btn btn-primary">
                         Detail
@@ -39,10 +41,10 @@
             </tr>
 
             <tr>
-                <td>TKT-002</td>
-                <td>Workshop UI/UX</td>
-                <td>25/06/2025</td>
-                <td>DISETUJUI</td>
+                <td>Kelas A Lantai 1</td>
+                <td>Kelas</td>
+                <td>40</td>
+                <td>Gedung D Lt.1</td>
                 <td>
                     <a href="#" class="btn btn-primary">
                         Detail

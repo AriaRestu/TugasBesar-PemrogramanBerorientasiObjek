@@ -8,7 +8,7 @@
 
 <div class="container">
 
-    <h1>Riwayat Pengajuan</h1>
+    <h1>Approval Pembina</h1>
 
     <div class="card">
 
@@ -17,9 +17,9 @@
             <thead>
             <tr>
                 <th>No Tiket</th>
-                <th>Kegiatan</th>
+                <th>Nama Kegiatan</th>
                 <th>Tanggal</th>
-                <th>Status</th>
+                <th>Peminjam</th>
                 <th>Aksi</th>
             </tr>
             </thead>
@@ -28,25 +28,18 @@
 
             <tr>
                 <td>TKT-001</td>
-                <td>Seminar AI</td>
+                <td>Seminar Teknologi</td>
                 <td>20/06/2025</td>
-                <td>MENUNGGU_SSC</td>
-                <td>
-                    <a href="#" class="btn btn-primary">
-                        Detail
-                    </a>
-                </td>
-            </tr>
+                <td>Mahasiswa A</td>
 
-            <tr>
-                <td>TKT-002</td>
-                <td>Workshop UI/UX</td>
-                <td>25/06/2025</td>
-                <td>DISETUJUI</td>
                 <td>
-                    <a href="#" class="btn btn-primary">
-                        Detail
-                    </a>
+                    <button class="btn btn-success">
+                        Setujui
+                    </button>
+
+                    <button class="btn btn-danger">
+                        Tolak
+                    </button>
                 </td>
             </tr>
 

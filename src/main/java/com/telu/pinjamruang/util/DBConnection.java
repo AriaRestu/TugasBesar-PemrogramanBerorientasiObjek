@@ -6,24 +6,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public final class DBConnection {
-
-    static {
-        try {
-            Class.forName(DatabaseConfig.getDriver());
-        } catch (ClassNotFoundException e) {
-            throw new ExceptionInInitializerError("MySQL JDBC driver tidak ditemukan: " + e.getMessage());
-        }
-    }
+public class DBConnection {
 
     private DBConnection() {
     }
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                DatabaseConfig.getUrl(),
-                DatabaseConfig.getUsername(),
-                DatabaseConfig.getPassword()
-        );
+    public static Connection getConnection() {
+
+        try {
+
+            Class.forName(DatabaseConfig.DRIVER);
+            Connection connection = DriverManager.getConnection(
+                    DatabaseConfig.URL,
+                    DatabaseConfig.USERNAME,
+                    DatabaseConfig.PASSWORD
+            );
+            System.out.println("Berhasil terhubung ke database: " + DatabaseConfig.URL);
+            return connection;
+
+        } catch (ClassNotFoundException | SQLException e) {
+
+            throw new RuntimeException(
+                    "Gagal terhubung ke database",
+                    e
+            );
+        }
     }
 }
