@@ -13,6 +13,8 @@ public class UserDAO {
             String email,
             String password) {
 
+        String hashedPassword = com.telu.pinjamruang.util.HashUtil.hashPassword(password);
+
         String sql =
                 "SELECT * FROM users " +
                 "WHERE email = ? " +
@@ -27,7 +29,7 @@ public class UserDAO {
         ) {
 
             ps.setString(1, email);
-            ps.setString(2, password);
+            ps.setString(2, hashedPassword);
 
             ResultSet rs = ps.executeQuery();
 

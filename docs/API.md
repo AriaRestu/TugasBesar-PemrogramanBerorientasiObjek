@@ -4,13 +4,13 @@ Endpoint sederhana untuk cek ketersediaan API tiap modul (Controller layer MVC).
 
 ## Endpoints
 
-| Method | URL | Modul | Pemilik |
-|--------|-----|-------|---------|
-| GET | `/api/ping` | Aplikasi | Tim |
-| GET | `/api/auth/ping` | Autentikasi | Gibran |
-| GET | `/api/ruang/ping` | Ruang & jadwal | Andra |
-| GET | `/api/peminjaman/ping` | Peminjaman | Brian |
-| GET | `/api/approval/ping` | Approval | Aria |
+| Method | URL                    | Modul          | Pemilik |
+| ------ | ---------------------- | -------------- | ------- |
+| GET    | `/api/ping`            | Aplikasi       | Tim     |
+| GET    | `/api/auth/ping`       | Autentikasi    | Gibran  |
+| GET    | `/api/ruang/ping`      | Ruang & jadwal | Andra   |
+| GET    | `/api/peminjaman/ping` | Peminjaman     | Brian   |
+| GET    | `/api/approval/ping`   | Approval       | Aria    |
 
 ## Contoh response
 
