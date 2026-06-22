@@ -14,6 +14,10 @@ public class F03 {
 
     // Relasi — untuk tampilan
     private String namaPenerbit;
+    private String keperluan;
+    private String statusPengajuan;
+    private String namaPeminjam;
+    private String namaRuangan;
 
     public F03() {
     }
@@ -74,11 +78,18 @@ public class F03 {
         this.createdAt = createdAt;
     }
 
-    public String getNamaPenerbit() {
-        return namaPenerbit;
-    }
+    public String getNamaPenerbit() { return namaPenerbit; }
+    public void setNamaPenerbit(String namaPenerbit) { this.namaPenerbit = namaPenerbit; }
 
-    public void setNamaPenerbit(String namaPenerbit) {
-        this.namaPenerbit = namaPenerbit;
-    }
+    public String getKeperluan() { return keperluan; }
+    public void setKeperluan(String keperluan) { this.keperluan = keperluan; }
+
+    public String getStatusPengajuan() { return statusPengajuan; }
+    public void setStatusPengajuan(String statusPengajuan) { this.statusPengajuan = statusPengajuan; }
+
+    public String getNamaPeminjam() { return namaPeminjam; }
+    public void setNamaPeminjam(String namaPeminjam) { this.namaPeminjam = namaPeminjam; }
+
+    public String getNamaRuangan() { return namaRuangan; }
+    public void setNamaRuangan(String namaRuangan) { this.namaRuangan = namaRuangan; }
 }

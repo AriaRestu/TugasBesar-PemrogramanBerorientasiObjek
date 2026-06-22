@@ -140,6 +140,7 @@ body {
     margin-bottom: 10px;
 }
 
+.menu-anchor { text-decoration:none; color:inherit; display:block; }
 .sb-copyright {
     font-size: 10px;
     color: rgba(255,255,255,.35);
@@ -550,10 +551,12 @@ tr:last-child td {
 
     <div class="sb-bottom">
         <ul class="menu">
+            <a href="${pageContext.request.contextPath}/logout" class="menu-anchor">
             <li>
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </li>
+            </a>
         </ul>
         <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
     </div>
