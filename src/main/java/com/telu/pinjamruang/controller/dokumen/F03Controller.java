@@ -30,6 +30,10 @@ public class F03Controller extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+        if (!"SSC".equals(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/dashboard");
+            return;
+        }
 
         String downloadParam = request.getParameter("download");
         String pengajuanIdParam = request.getParameter("pengajuan_id");
@@ -92,6 +96,10 @@ public class F03Controller extends HttpServlet {
         User user = SessionUtil.getLoggedInUser(request, response);
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+        if (!"SSC".equals(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/dashboard");
             return;
         }
 
