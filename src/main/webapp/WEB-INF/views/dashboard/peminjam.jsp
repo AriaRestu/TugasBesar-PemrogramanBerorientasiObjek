@@ -513,10 +513,7 @@ tr:last-child td {
         <div class="sb-logo-row">
             <div class="sb-logo-icon">
                 <!-- Telkom-style icon -->
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="#C8102E"/>
-                    <rect x="9" y="15" width="6" height="6" fill="#99001A"/>
-                </svg>
+                <img src="${ctx}/assets/images/pngegg.png" alt="Logo Telkom University" style="width:38px; height:38px; object-fit:contain;" />
             </div>
             <h1>Telkom University Surabaya</h1>
         </div>
@@ -533,19 +530,20 @@ tr:last-child td {
             <i class="fa-solid fa-calendar-plus"></i>
             Peminjaman
         </li>
-        <li>
-            <i class="fa-solid fa-file-lines"></i>
-            Riwayat
-        </li>
-        <li>
-            <i class="fa-solid fa-bell"></i>
-            Notifikasi
-            <span class="sb-badge">3</span>
-        </li>
-        <li>
-            <i class="fa-solid fa-user"></i>
-            Profil
-        </li>
+                <a href="${pageContext.request.contextPath}/create"
+           class="menu-anchor"> 
+        </a>
+        <a href="${pageContext.request.contextPath}/riwayat"
+           class="menu-anchor">
+    
+            <li>
+                <i class="fa-solid fa-file-lines"></i>
+                Riwayat
+                <span class="sb-badge">2</span>
+            </li>
+        
+        </a>
+
     </ul>
 
     <div class="sb-bottom">
@@ -576,14 +574,10 @@ tr:last-child td {
             </div>
         </div>
         <div class="nb-right">
-            <div class="notif-btn">
-                <i class="fa-solid fa-bell"></i>
-                <div class="notif-count">3</div>
-            </div>
             <div class="user-area">
                 <div class="user-avatar">BA</div>
                 <div>
-                    <div class="user-name">Brian Alfredo</div>
+                    <div class="user-name">Username</div>
                     <div class="user-role">Peminjam</div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -596,21 +590,17 @@ tr:last-child td {
         <!-- HERO -->
         <div class="hero">
             <div class="hero-text">
-                <h1>Halo, Brian Alfredo! &#x1F44B;</h1>
+                <h1>Halo, Username! &#x1F44B;</h1>
                 <p>
                     Selamat datang di Peminjaman Ruang TEL-U.
                     Kelola peminjaman ruangan kampus
                     dengan mudah dan efisien.
                 </p>
-                <button class="btn-ajukan">
-                    <i class="fa-solid fa-plus"></i>
-                    Ajukan Peminjaman
-                </button>
             </div>
 
             <div class="hero-illus">
                 <!-- Campus building illustration -->
-                <svg width="200" height="150" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                     <!-- Sky / clouds -->
                     <ellipse cx="50" cy="20" rx="28" ry="10" fill="#e8eef5"/>
                     <ellipse cx="70" cy="16" rx="20" ry="8" fill="#f0f4f8"/>
@@ -663,7 +653,7 @@ tr:last-child td {
 
                     <!-- Telkom logo on building -->
                     <rect x="80" y="46" width="38" height="12" rx="2" fill="white" opacity=".9"/>
-                    <text x="99" y="55" text-anchor="middle" font-size="7" fill="#C8102E" font-weight="700" font-family="Inter, sans-serif">Telkom</text>
+                    <text x="99" y="55" text-anchor="middle" font-size="7" fill="#C8102E" font-weight="700" font-family="Inter, sans-serif"></text>
                 </svg>
             </div>
         </div>
