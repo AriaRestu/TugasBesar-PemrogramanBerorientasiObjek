@@ -15,10 +15,10 @@ import java.io.IOException;
 @WebServlet("/riwayat")
 public class RiwayatPengajuanController extends HttpServlet {
 
+    private static final int PAGE_SIZE = 10;
+
     @Override
-    protected void doGet(
-            HttpServletRequest request,
-            HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         User user = SessionUtil.getLoggedInUser(request, response);
@@ -27,20 +27,24 @@ public class RiwayatPengajuanController extends HttpServlet {
             return;
         }
 
-        PengajuanDAO pengajuanDAO = new PengajuanDAO();
+        String status  = request.getParameter("status");
+        String keyword = request.getParameter("keyword");
+        int page = 1;
+        try { page = Integer.parseInt(request.getParameter("page")); } catch (Exception ignored) {}
+        if (page < 1) page = 1;
 
-        // Untuk peminjam — tampilkan miliknya sendiri
-        // Untuk role lain — tampilkan semua
-        if ("PEMINJAM".equals(user.getRole())) {
-            request.setAttribute("pengajuanList",
-                    pengajuanDAO.findByUserId(user.getId()));
-        } else {
-            request.setAttribute("pengajuanList",
-                    pengajuanDAO.findAll());
-        }
+        // PEMINJAM hanya lihat miliknya, role lain lihat semua
+        Integer userId = "PEMINJAM".equals(user.getRole()) ? user.getId() : null;
 
-        request.getRequestDispatcher(
-                "/WEB-INF/views/peminjaman/riwayat.jsp")
-                .forward(request, response);
+        PengajuanDAO dao = new PengajuanDAO();
+        int total = dao.count(userId, status, keyword);
+        int totalPages = (int) Math.ceil((double) total / PAGE_SIZE);
+
+        request.setAttribute("pengajuanList", dao.search(userId, status, keyword, page, PAGE_SIZE));
+        request.setAttribute("total", total);
+        request.setAttribute("page", page);
+        request.setAttribute("totalPages", totalPages);
+
+        request.getRequestDispatcher("/WEB-INF/views/peminjaman/riwayat.jsp").forward(request, response);
     }
 }

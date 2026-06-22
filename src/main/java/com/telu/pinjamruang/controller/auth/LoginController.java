@@ -42,12 +42,13 @@ public class LoginController extends HttpServlet {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String selectedRole = request.getParameter("role");
         String rememberMe = request.getParameter("remember");
 
         UserDAO userDAO = new UserDAO();
         User user = userDAO.login(email, password);
 
-        if (user != null) {
+        if (user != null && user.getRole().equals(selectedRole)) {
 
             // Simpan session + cookie (remember me)
             boolean remember = "on".equals(rememberMe) || "true".equals(rememberMe);
@@ -59,7 +60,7 @@ public class LoginController extends HttpServlet {
         } else {
 
             request.setAttribute("error",
-                    "Email atau password salah");
+                    user != null ? "Role tidak sesuai dengan akun ini" : "Email atau password salah");
 
             request.getRequestDispatcher(
                     "/WEB-INF/views/auth/login.jsp")

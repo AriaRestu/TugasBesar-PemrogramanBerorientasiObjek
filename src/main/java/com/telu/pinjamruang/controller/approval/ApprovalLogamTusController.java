@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/approval/logamtus")
 public class ApprovalLogamTusController extends HttpServlet {
@@ -34,12 +33,21 @@ public class ApprovalLogamTusController extends HttpServlet {
             return;
         }
 
-        PengajuanDAO pengajuanDAO = new PengajuanDAO();
-        List<Pengajuan> pendingList = pengajuanDAO.findByStatus("MENUNGGU_LOGAM_TUS");
-        request.setAttribute("pendingList", pendingList);
+        String keyword = request.getParameter("keyword");
+        int page = 1;
+        try { page = Integer.parseInt(request.getParameter("page")); } catch (Exception ignored) {}
+        if (page < 1) page = 1;
 
-        request.getRequestDispatcher("/WEB-INF/views/approval/logamtus.jsp")
-                .forward(request, response);
+        final int PAGE_SIZE = 10;
+        PengajuanDAO pengajuanDAO = new PengajuanDAO();
+        int total = pengajuanDAO.count(null, "MENUNGGU_LOGAM_TUS", keyword);
+
+        request.setAttribute("pendingList", pengajuanDAO.search(null, "MENUNGGU_LOGAM_TUS", keyword, page, PAGE_SIZE));
+        request.setAttribute("total", total);
+        request.setAttribute("page", page);
+        request.setAttribute("totalPages", (int) Math.ceil((double) total / PAGE_SIZE));
+
+        request.getRequestDispatcher("/WEB-INF/views/approval/logamtus.jsp").forward(request, response);
     }
 
     @Override

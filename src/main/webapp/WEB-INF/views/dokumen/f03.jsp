@@ -537,75 +537,9 @@ tr:last-child td {
 <!-- ===========================
      SIDEBAR
 =========================== -->
-<div class="sidebar">
-
-    <div class="sb-logo">
-        <div class="sb-logo-row">
-            <div class="sb-logo-icon">
-                <!-- Telkom-style icon -->
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="#C8102E"/>
-                    <rect x="9" y="15" width="6" height="6" fill="#99001A"/>
-                </svg>
-            </div>
-            <h1>Telkom University Surabaya</h1>
-        </div>
-    </div>
-
-    <div class="sb-section">Menu</div>
-
-    <ul class="menu">
-        <a href="${pageContext.request.contextPath}/dashboard" class="menu-anchor">
-            <li><i class="fa-solid fa-house"></i> Dashboard</li>
-        </a>
-
-        <c:choose>
-            <c:when test="${sessionScope.user.role == 'SSC'}">
-                <a href="${pageContext.request.contextPath}/approval/ssc" class="menu-anchor">
-                    <li><i class="fa-solid fa-calendar-check"></i> Verifikasi Pengajuan</li>
-                </a>
-            </c:when>
-            <c:when test="${sessionScope.user.role == 'LOGAM_TUS'}">
-                <a href="${pageContext.request.contextPath}/approval/logamtus" class="menu-anchor">
-                    <li><i class="fa-solid fa-stamp"></i> Approval Akhir</li>
-                </a>
-            </c:when>
-        </c:choose>
-
-        <a href="${pageContext.request.contextPath}/f03" class="menu-anchor">
-            <li class="active"><i class="fa-solid fa-file-pdf"></i> Generate F03</li>
-        </a>
-
-        <a href="${pageContext.request.contextPath}/notifikasi" class="menu-anchor">
-            <li><i class="fa-solid fa-bell"></i> Notifikasi</li>
-        </a>
-
-
-        <a href="${pageContext.request.contextPath}/notifikasi"
-          class="menu-anchor">
-          
-            <li>
-                <i class="fa-solid fa-bell"></i>
-                Notifikasi
-                <span class="sb-badge">3</span>
-            </li>
-        </a>
-        
-    </ul>
-
-    <div class="sb-bottom">
-        <ul class="menu">
-            <a href="${pageContext.request.contextPath}/logout" class="menu-anchor">
-            <li>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </li>
-            </a>
-        </ul>
-        <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
-    </div>
-
-</div>
+<jsp:include page="/WEB-INF/views/fragments/sidebar-role.jsp">
+    <jsp:param name="active" value="f03"/>
+</jsp:include>
 
 
 <!-- ===========================

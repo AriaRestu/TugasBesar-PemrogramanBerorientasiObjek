@@ -1,102 +1,73 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Peminjaman - TEL-U</title>
+<title>Buat Pengajuan - TEL-U</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Inter','Segoe UI',Arial,sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 body { background:#f4f6f9; display:flex; min-height:100vh; }
-.sidebar { position:fixed; top:0; left:0; width:240px; height:100vh; background:linear-gradient(180deg,#B20824 0%,#C8102E 55%,#99001A 100%); display:flex; flex-direction:column; z-index:100; }
-.sb-logo { padding:18px 16px 16px; border-bottom:1px solid rgba(255,255,255,.15); display:flex; align-items:center; gap:12px; }
-.sb-logo-icon { width:42px; height:42px; background:white; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.sb-logo-icon svg { width:26px; height:26px; }
-.sb-logo-text h1 { font-size:13px; font-weight:700; color:white; line-height:1.3; }
-.sb-section { padding:16px 18px 6px; font-size:9px; letter-spacing:1.8px; color:rgba(255,255,255,.45); text-transform:uppercase; }
+.sidebar { position:fixed; top:0; left:0; width:240px; height:100vh; background:linear-gradient(180deg,#B20824,#C8102E,#99001A); display:flex; flex-direction:column; z-index:100; }
+.sb-logo { padding:20px 18px 16px; border-bottom:1px solid rgba(255,255,255,.15); }
+.sb-logo-row { display:flex; align-items:center; gap:10px; }
+.sb-logo-icon { width:36px; height:36px; background:white; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.sb-logo-icon svg { width:22px; height:22px; }
+.sb-logo h1 { font-size:14px; font-weight:600; color:white; }
+.sb-section { padding:16px 18px 6px; font-size:10px; letter-spacing:1.5px; color:rgba(255,255,255,.5); text-transform:uppercase; }
 .menu { list-style:none; padding:0 10px; }
-.menu li a { display:flex; align-items:center; gap:12px; padding:11px 13px; border-radius:10px; font-size:13px; color:rgba(255,255,255,.82); text-decoration:none; margin-bottom:3px; transition:background .2s; }
-.menu li a:hover { background:rgba(255,255,255,.12); }
-.menu li a.active { background:rgba(255,255,255,.2); color:white; font-weight:700; }
-.menu li a i { font-size:16px; width:20px; text-align:center; }
-.sb-badge { margin-left:auto; background:rgba(255,255,255,.25); font-size:10px; padding:2px 7px; border-radius:10px; color:white; font-weight:700; }
+.menu li { display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:10px; font-size:13px; color:rgba(255,255,255,.85); margin-bottom:2px; transition:background .2s; }
+.menu li:hover { background:rgba(255,255,255,.12); }
+.menu li.active { background:rgba(255,255,255,.2); color:white; font-weight:600; }
+.menu li i { font-size:16px; width:20px; text-align:center; }
+.sb-badge { margin-left:auto; background:rgba(255,255,255,.25); font-size:10px; padding:2px 7px; border-radius:10px; color:white; font-weight:600; }
 .sb-bottom { margin-top:auto; padding:12px 10px; border-top:1px solid rgba(255,255,255,.12); }
-.sb-bottom .menu { padding:0; margin-bottom:8px; }
-.sb-copyright { font-size:9.5px; color:rgba(255,255,255,.3); padding:4px 13px; line-height:1.6; }
-.content { margin-left:240px; flex:1; display:flex; flex-direction:column; min-height:100vh; }
-.navbar { background:white; padding:12px 28px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f0f0f0; position:sticky; top:0; z-index:50; }
-.nb-left { display:flex; align-items:center; gap:14px; }
-.nb-menu-btn { font-size:19px; color:#999; cursor:pointer; }
+.sb-copyright { font-size:10px; color:rgba(255,255,255,.35); padding:4px 12px; }
+.menu-anchor { text-decoration:none; color:inherit; display:block; }
+.content { margin-left:240px; flex:1; display:flex; flex-direction:column; }
+.navbar { background:white; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f0f0f0; position:sticky; top:0; z-index:50; }
 .nb-brand { font-size:15px; font-weight:700; color:#C8102E; }
-.nb-sub   { font-size:10.5px; color:#bbb; margin-top:1px; }
-.nb-right { display:flex; align-items:center; gap:14px; }
-.user-area { display:flex; align-items:center; gap:10px; cursor:pointer; }
-.user-avatar { width:36px; height:36px; border-radius:50%; background:#f5c0c8; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#7b0013; }
-.user-name { font-size:13px; font-weight:700; color:#222; }
-.user-role { font-size:10.5px; color:#aaa; margin-top:1px; }
-.user-area > i { font-size:12px; color:#ccc; }
+.nb-sub { font-size:11px; color:#999; }
+.user-area { display:flex; align-items:center; gap:10px; }
+.user-avatar { width:34px; height:34px; border-radius:50%; background:#f1c0c7; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#7b0013; }
+.user-name { font-size:13px; font-weight:600; color:#222; }
+.user-role { font-size:11px; color:#999; }
 .inner { padding:24px 28px; display:flex; flex-direction:column; gap:20px; flex:1; }
-.page-title { font-size:22px; font-weight:700; color:#1a1a1a; margin-bottom:4px; }
-.page-sub   { font-size:13px; color:#aaa; }
+.page-title { font-size:22px; font-weight:700; color:#1a1a1a; }
+.page-sub { font-size:13px; color:#aaa; }
 .box { background:white; border-radius:16px; padding:28px 32px; border:1px solid #f0f0f0; }
 .form-group { margin-bottom:20px; }
 .form-group label { display:block; font-size:13px; font-weight:600; color:#444; margin-bottom:7px; }
-.form-group input, .form-group select, .form-group textarea {
-    width:100%; padding:11px 14px; border:1.5px solid #e5e7eb; border-radius:9px;
-    font-size:13px; color:#333; outline:none; transition:border .2s; background:white;
-}
+.form-group input, .form-group select, .form-group textarea { width:100%; padding:11px 14px; border:1.5px solid #e5e7eb; border-radius:9px; font-size:13px; color:#333; outline:none; transition:border .2s; background:white; }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:#C8102E; }
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.form-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
-.btn-primary { display:inline-flex; align-items:center; gap:8px; background:#C8102E; color:white; border:none; border-radius:10px; padding:12px 24px; font-size:13.5px; font-weight:700; cursor:pointer; transition:background .2s; }
+.btn-primary { display:inline-flex; align-items:center; gap:8px; background:#C8102E; color:white; border:none; border-radius:10px; padding:12px 24px; font-size:13px; font-weight:700; cursor:pointer; }
 .btn-primary:hover { background:#A5001F; }
-.btn-secondary { display:inline-flex; align-items:center; gap:8px; background:white; color:#666; border:1.5px solid #e5e7eb; border-radius:10px; padding:12px 24px; font-size:13.5px; font-weight:600; cursor:pointer; text-decoration:none; }
-.btn-secondary:hover { background:#f9f9f9; }
+.btn-secondary { display:inline-flex; align-items:center; gap:8px; background:white; color:#666; border:1.5px solid #e5e7eb; border-radius:10px; padding:12px 24px; font-size:13px; font-weight:600; text-decoration:none; }
 .form-footer { display:flex; gap:12px; justify-content:flex-end; margin-top:8px; padding-top:20px; border-top:1px solid #f5f5f5; }
-.alert-info { padding:14px 18px; background:#e0f2fe; color:#0369a1; border-radius:10px; font-size:13px; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
-.page-footer { text-align:center; padding:16px; font-size:12px; color:#bbb; border-top:1px solid #f0f0f0; background:white; }
+.alert-error { padding:12px 16px; background:#ffeaed; color:#b91c1c; border-radius:10px; font-size:13px; margin-bottom:20px; }
+.alert-info { padding:12px 16px; background:#e0f2fe; color:#0369a1; border-radius:10px; font-size:13px; margin-bottom:20px; }
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="sb-logo">
-        <div class="sb-logo-icon">
-            <svg viewBox="0 0 26 26" fill="none">
-                <rect x="2" y="3" width="22" height="5.5" rx="1.5" fill="#C8102E"/>
-                <rect x="10" y="8.5" width="6" height="15" rx="1.5" fill="#C8102E"/>
-                <rect x="2" y="20.5" width="22" height="2.5" rx="1.2" fill="#C8102E" opacity=".3"/>
-            </svg>
-        </div>
-        <div class="sb-logo-text"><h1>Telkom University<br>Surabaya</h1></div>
-    </div>
-    <div class="sb-section">Menu</div>
-    <ul class="menu">
-        <li><a href="${pageContext.request.contextPath}/dashboard"><i class="fa-solid fa-house"></i> Dashboard</a></li>
-        <li><a href="${pageContext.request.contextPath}/peminjaman" class="active"><i class="fa-solid fa-calendar-plus"></i> Peminjaman</a></li>
-        <li><a href="${pageContext.request.contextPath}/riwayat"><i class="fa-solid fa-file-lines"></i> Riwayat <span class="sb-badge">2</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/notifikasi"><i class="fa-solid fa-bell"></i> Notifikasi <span class="sb-badge">3</span></a></li>
-    </ul>
-    <div class="sb-bottom">
-        <ul class="menu"><li><a href="${pageContext.request.contextPath}/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li></ul>
-        <p class="sb-copyright">&#169; 2026 Telkom University Surabaya</p>
-    </div>
-</div>
+<jsp:include page="/WEB-INF/views/fragments/sidebar-role.jsp">
+    <jsp:param name="active" value="pengajuan"/>
+</jsp:include>
 
 <div class="content">
     <div class="navbar">
-        <div class="nb-left">
-            <i class="fa-solid fa-bars nb-menu-btn"></i>
-            <div>
-                <div class="nb-brand">Peminjaman Ruang TEL-U</div>
-                <div class="nb-sub">Sistem Peminjaman Ruangan</div>
-            </div>
+        <div>
+            <div class="nb-brand">Peminjaman Ruang TEL-U</div>
+            <div class="nb-sub">Sistem Peminjaman Ruangan</div>
         </div>
-        <div class="nb-right">
-            <div class="user-area">
-                <div class="user-avatar">BA</div>
-                <div><div class="user-name">Username</div><div class="user-role">Peminjam</div></div>
-                <i class="fa-solid fa-chevron-down"></i>
+        <div class="user-area">
+            <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
+            <div>
+                <div class="user-name">${sessionScope.user.nama}</div>
+                <div class="user-role">${sessionScope.user.role}</div>
             </div>
         </div>
     </div>
@@ -108,56 +79,58 @@ body { background:#f4f6f9; display:flex; min-height:100vh; }
         </div>
 
         <div class="box">
-            <div class="alert-info">
-                <i class="fa-solid fa-circle-info"></i>
-                Pengajuan akan diproses oleh admin dalam 1x24 jam kerja.
-            </div>
+            <c:if test="${not empty error}">
+                <div class="alert-error"><i class="fa-solid fa-circle-exclamation"></i> ${error}</div>
+            </c:if>
+            <div class="alert-info"><i class="fa-solid fa-circle-info"></i> Pengajuan akan diproses bertahap: Pembina → SSC → Logam TUS.</div>
 
-            <form action="${pageContext.request.contextPath}/peminjaman" method="post">
+            <form action="${pageContext.request.contextPath}/pengajuan" method="post">
+
                 <div class="form-group">
-                    <label><i class="fa-solid fa-door-open" style="color:#C8102E;margin-right:6px"></i>Pilih Ruangan</label>
-                    <select name="ruangan" required>
-                        <option value="">-- Pilih Ruangan --</option>
-                        <option>Lab Komputer 301</option>
-                        <option>Lab Komputer 302</option>
-                        <option>Aula Utama</option>
-                        <option>Ruang Rapat A</option>
-                        <option>Ruang Rapat B</option>
-                        <option>Lab Jaringan</option>
-                        <option>Ruang Kelas 401</option>
+                    <label><i class="fa-solid fa-door-open" style="color:#C8102E;margin-right:6px"></i>Jenis Pengajuan</label>
+                    <select name="jenis_pengajuan" required>
+                        <option value="RUANGAN">Ruangan</option>
+                        <option value="LOGISTIK">Logistik</option>
+                        <option value="RUANGAN_LOGISTIK">Ruangan + Logistik</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fa-solid fa-pen" style="color:#C8102E;margin-right:6px"></i>Nama Kegiatan</label>
-                    <input type="text" name="kegiatan" placeholder="Contoh: Praktikum PBO, Seminar Teknologi..." required/>
+                    <label><i class="fa-solid fa-building" style="color:#C8102E;margin-right:6px"></i>Pilih Ruangan</label>
+                    <select name="ruangan_id">
+                        <option value="">-- Pilih Ruangan (opsional) --</option>
+                        <c:forEach var="r" items="${ruanganList}">
+                            <option value="${r.id}">${r.namaRuangan} (${r.jenis}, Kap. ${r.kapasitas})</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-pen" style="color:#C8102E;margin-right:6px"></i>Keperluan / Nama Kegiatan</label>
+                    <input type="text" name="keperluan" placeholder="Contoh: Seminar Teknologi, Praktikum PBO..." required/>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label><i class="fa-solid fa-calendar" style="color:#C8102E;margin-right:6px"></i>Tanggal Penggunaan</label>
-                        <input type="date" name="tanggal" required/>
+                        <label><i class="fa-solid fa-calendar" style="color:#C8102E;margin-right:6px"></i>Tanggal Pinjam</label>
+                        <input type="date" name="tanggal_pinjam" required/>
                     </div>
                     <div class="form-group">
-                        <label><i class="fa-solid fa-users" style="color:#C8102E;margin-right:6px"></i>Jumlah Peserta</label>
-                        <input type="number" name="peserta" placeholder="Contoh: 30" min="1" required/>
+                        <label><i class="fa-solid fa-clock" style="color:#C8102E;margin-right:6px"></i>Waktu Mulai</label>
+                        <input type="time" name="waktu_mulai" required/>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label><i class="fa-solid fa-clock" style="color:#C8102E;margin-right:6px"></i>Jam Mulai</label>
-                        <input type="time" name="jam_mulai" required/>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-clock" style="color:#C8102E;margin-right:6px"></i>Jam Selesai</label>
-                        <input type="time" name="jam_selesai" required/>
+                        <label><i class="fa-solid fa-clock" style="color:#C8102E;margin-right:6px"></i>Waktu Selesai</label>
+                        <input type="time" name="waktu_selesai" required/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fa-solid fa-align-left" style="color:#C8102E;margin-right:6px"></i>Keterangan Tambahan</label>
-                    <textarea name="keterangan" rows="4" placeholder="Tuliskan keterangan tambahan jika ada..."></textarea>
+                    <label><i class="fa-solid fa-align-left" style="color:#C8102E;margin-right:6px"></i>Catatan Tambahan</label>
+                    <textarea name="catatan" rows="3" placeholder="Keterangan tambahan jika ada..."></textarea>
                 </div>
 
                 <div class="form-footer">
@@ -171,8 +144,6 @@ body { background:#f4f6f9; display:flex; min-height:100vh; }
             </form>
         </div>
     </div>
-
-    <div class="page-footer">Peminjaman Ruang TEL-U &copy; 2026 &mdash; Telkom University Surabaya</div>
 </div>
 
 </body>

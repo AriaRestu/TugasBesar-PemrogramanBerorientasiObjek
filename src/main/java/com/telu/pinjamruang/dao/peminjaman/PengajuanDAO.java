@@ -248,6 +248,60 @@ public class PengajuanDAO extends BaseDAO {
         return false;
     }
 
+    /**
+     * Cari pengajuan dengan filter status, keyword, dan paginasi.
+     * userId null berarti semua user (untuk role approver).
+     */
+    public List<Pengajuan> search(Integer userId, String status, String keyword, int page, int pageSize) {
+        List<Pengajuan> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+            "SELECT p.*, u.nama AS nama_user, r.nama_ruangan " +
+            "FROM pengajuan p JOIN users u ON p.user_id = u.id " +
+            "LEFT JOIN ruangan r ON p.ruangan_id = r.id WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        if (userId != null)               { sql.append(" AND p.user_id = ?");  params.add(userId); }
+        if (status != null && !status.isEmpty()) { sql.append(" AND p.status = ?");   params.add(status); }
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND (p.no_tiket LIKE ? OR p.keperluan LIKE ? OR r.nama_ruangan LIKE ? OR u.nama LIKE ?)");
+            String kw = "%" + keyword + "%";
+            params.add(kw); params.add(kw); params.add(kw); params.add(kw);
+        }
+        sql.append(" ORDER BY p.tanggal_pengajuan DESC LIMIT ? OFFSET ?");
+        params.add(pageSize);
+        params.add((page - 1) * pageSize);
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) ps.setObject(i + 1, params.get(i));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) list.add(mapRow(rs));
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
+
+    /** Hitung total baris untuk paginasi */
+    public int count(Integer userId, String status, String keyword) {
+        StringBuilder sql = new StringBuilder(
+            "SELECT COUNT(*) FROM pengajuan p JOIN users u ON p.user_id = u.id " +
+            "LEFT JOIN ruangan r ON p.ruangan_id = r.id WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        if (userId != null)               { sql.append(" AND p.user_id = ?");  params.add(userId); }
+        if (status != null && !status.isEmpty()) { sql.append(" AND p.status = ?");   params.add(status); }
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND (p.no_tiket LIKE ? OR p.keperluan LIKE ? OR r.nama_ruangan LIKE ? OR u.nama LIKE ?)");
+            String kw = "%" + keyword + "%";
+            params.add(kw); params.add(kw); params.add(kw); params.add(kw);
+        }
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) ps.setObject(i + 1, params.get(i));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) { e.printStackTrace(); }
+        return 0;
+    }
+
     /** Generate nomor tiket unik */
     public String generateNoTiket() {
 
