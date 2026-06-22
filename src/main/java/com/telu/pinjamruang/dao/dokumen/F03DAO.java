@@ -38,6 +38,30 @@ public class F03DAO extends BaseDAO {
         return null;
     }
 
+    public java.util.List<F03> findAll() {
+        java.util.List<F03> list = new java.util.ArrayList<>();
+        String sql = "SELECT f.*, u.nama AS nama_penerbit, " +
+                     "p.keperluan, p.status AS status_pengajuan, " +
+                     "pu.nama AS nama_peminjam, r.nama_ruangan " +
+                     "FROM f03 f " +
+                     "LEFT JOIN users u ON f.diterbitkan_oleh = u.id " +
+                     "LEFT JOIN pengajuan p ON f.pengajuan_id = p.id " +
+                     "LEFT JOIN users pu ON p.user_id = pu.id " +
+                     "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+                     "ORDER BY f.tanggal_terbit DESC";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                F03 f = mapRow(rs);
+                try { f.setKeperluan(rs.getString("keperluan")); } catch (Exception ignored) {}
+                try { f.setStatusPengajuan(rs.getString("status_pengajuan")); } catch (Exception ignored) {}
+                try { f.setNamaPeminjam(rs.getString("nama_peminjam")); } catch (Exception ignored) {}
+                try { f.setNamaRuangan(rs.getString("nama_ruangan")); } catch (Exception ignored) {}
+                list.add(f);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
+
     public F03 findById(int id) {
         String sql = "SELECT f.*, u.nama AS nama_penerbit FROM f03 f LEFT JOIN users u ON f.diterbitkan_oleh = u.id WHERE f.id = ?";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {

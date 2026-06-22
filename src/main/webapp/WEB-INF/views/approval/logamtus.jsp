@@ -1,8 +1,14 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Telkom University Surabaya</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
@@ -701,8 +707,79 @@ tr:last-child td {
 
         </table>
 
-    </div>
 
+    <div class="inner">
+        <c:if test="${not empty param.success}">
+            <div style="background:#eaf7f0;color:#15803d;padding:12px 18px;border-radius:10px;font-size:13px;">
+                Tindakan berhasil disimpan.
+            </div>
+        </c:if>
+
+        <div class="table-box">
+            <div class="table-header">
+                <h2>Persetujuan Akhir — Logam TUS</h2>
+                <span style="font-size:13px;color:#888;">${pendingList.size()} menunggu</span>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No Tiket</th>
+                        <th>Peminjam</th>
+                        <th>Ruangan</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Keperluan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty pendingList}">
+                            <tr><td colspan="6" class="empty-state">Tidak ada pengajuan yang menunggu persetujuan.</td></tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="p" items="${pendingList}">
+                                <tr>
+                                    <td><strong>${p.noTiket}</strong></td>
+                                    <td>${p.namaUser}</td>
+                                    <td>${not empty p.namaRuangan ? p.namaRuangan : '-'}</td>
+                                    <td><fmt:formatDate value="${p.tanggalPinjam}" pattern="dd/MM/yyyy"/></td>
+                                    <td>${p.keperluan}</td>
+                                    <td>
+                                        <button class="btn-success"
+                                                onclick="openModal(${p.id}, 'setujui')">
+                                            <i class="fa-solid fa-check"></i> Setujui
+                                        </button>
+                                        <button class="btn-danger"
+                                                onclick="openModal(${p.id}, 'tolak')">
+                                            <i class="fa-solid fa-xmark"></i> Tolak
+                                        </button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <h3 id="modalTitle">Konfirmasi</h3>
+        <form method="post" action="${pageContext.request.contextPath}/approval/logamtus">
+            <input type="hidden" name="pengajuan_id" id="modalPengajuanId"/>
+            <input type="hidden" name="action" id="modalAction"/>
+            <label style="font-size:13px;color:#555;display:block;margin-bottom:6px;">Catatan (opsional):</label>
+            <textarea name="catatan" placeholder="Tambahkan catatan..."></textarea>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+                <button type="submit" id="modalSubmit" class="btn-success">Konfirmasi</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 
@@ -712,3 +789,4 @@ tr:last-child td {
 
 </body>
 </html>
+
