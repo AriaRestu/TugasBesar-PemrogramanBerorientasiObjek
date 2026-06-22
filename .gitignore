@@ -21,6 +21,7 @@ nbdist/
 
 # Database credentials (jangan commit password asli)
 src/main/resources/db.properties
+docs/TODO_BACKEND.md
 
 # Tomcat lokal — unduh sendiri, jangan commit distribusi Tomcat
 tomcat/
