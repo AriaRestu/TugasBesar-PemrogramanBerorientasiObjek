@@ -537,78 +537,9 @@ tr:last-child td {
 <!-- ===========================
      SIDEBAR
 =========================== -->
-<div class="sidebar">
-
-    <div class="sb-logo">
-        <div class="sb-logo-row">
-            <div class="sb-logo-icon">
-                <!-- Telkom-style icon -->
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="#C8102E"/>
-                    <rect x="9" y="15" width="6" height="6" fill="#99001A"/>
-                </svg>
-            </div>
-            <h1>Telkom University Surabaya</h1>
-        </div>
-    </div>
-
-    <div class="sb-section">Menu</div>
-
-    <ul class="menu">
-
-        <a href="${pageContext.request.contextPath}/dashboard"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/approval/ssc"
-           class="menu-anchor">
-            
-            <li class="active">
-                <i class="fa-solid fa-calendar-plus"></i>
-                Verifikasi Pengajuan
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/f03"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-file-lines"></i>
-                Generate F03
-            </li>
-        
-        </a>
-        
-        <a href="${pageContext.request.contextPath}/notifikasi"
-            class="menu-anchor">
-          <li>
-            <i class="fa-solid fa-bell"></i>
-            Notifikasi
-            <span class="sb-badge">3</span>
-          </li>
-        </a>
-    </ul>
-
-    <div class="sb-bottom">
-        <ul class="menu">
-            <a href="${pageContext.request.contextPath}/logout" class="menu-anchor">
-            <li>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </li>
-            </a>
-        </ul>
-        <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
-    </div>
-
-</div>
+<jsp:include page="/WEB-INF/views/fragments/sidebar-role.jsp">
+    <jsp:param name="active" value="approval"/>
+</jsp:include>
 
 
 <!-- ===========================
@@ -643,7 +574,7 @@ tr:last-child td {
 
             <div class="table-header">
                 <h2>Verifikasi Pengajuan SSC</h2>
-                <span style="font-size:13px;color:#888;">${pendingList.size()} menunggu</span>
+                <span style="font-size:13px;color:#888;">${total} pengajuan</span>
             </div>
 
             <c:if test="${not empty param.success}">
@@ -651,6 +582,16 @@ tr:last-child td {
                     Tindakan berhasil disimpan.
                 </div>
             </c:if>
+
+            <%-- Search bar --%>
+            <form method="get" action="${pageContext.request.contextPath}/approval/ssc" style="display:flex;gap:10px;margin-bottom:16px;">
+                <input type="text" name="keyword" value="${param.keyword}"
+                       placeholder="🔍 Cari no tiket, peminjam, atau ruangan..."
+                       style="flex:1;padding:9px 13px;border:1px solid #e5e7eb;border-radius:9px;font-size:13px;outline:none;"/>
+                <button type="submit" style="background:#C8102E;color:white;border:none;padding:9px 18px;border-radius:9px;font-size:13px;cursor:pointer;">
+                    <i class="fa-solid fa-magnifying-glass"></i> Cari
+                </button>
+            </form>
 
             <table>
                 <thead>
@@ -691,6 +632,17 @@ tr:last-child td {
                     </c:choose>
                 </tbody>
             </table>
+
+            <%-- Paginasi --%>
+            <c:if test="${totalPages > 1}">
+                <div style="display:flex;justify-content:center;align-items:center;gap:6px;margin-top:20px;flex-wrap:wrap;">
+                    <c:forEach begin="1" end="${totalPages}" var="p">
+                        <a href="?keyword=${param.keyword}&page=${p}"
+                           style="padding:6px 12px;border-radius:8px;border:1px solid #e5e7eb;font-size:13px;text-decoration:none;
+                                  background:${p == page ? '#C8102E' : 'white'};color:${p == page ? 'white' : '#333'};">${p}</a>
+                    </c:forEach>
+                </div>
+            </c:if>
         </div>
 
         <!-- Modal Konfirmasi -->
