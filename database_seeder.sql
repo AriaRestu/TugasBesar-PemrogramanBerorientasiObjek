@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
 INSERT INTO users (nama, email, password, no_telp, role) VALUES 
 ('User Peminjam', 'peminjam@telkomuniversity.ac.id', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '081234567890', 'PEMINJAM'),
 ('User Pembina', 'pembina@telkomuniversity.ac.id', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '081234567891', 'PEMBINA'),
-('Staf SSC', 'ssc@telkomuniversity.ac.id', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '081234567892', 'SSC'),
+('Staf SSC', 'ssc@telkomuniversity.ac.id', 'ef92b778bafe771e8   9245b89ecbc08a44a4e166c06659911881f383d4473e94f', '081234567892', 'SSC'),
 ('Staf Logam TUS', 'logamtus@telkomuniversity.ac.id', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '081234567893', 'LOGAM_TUS');
 
 SET FOREIGN_KEY_CHECKS = 1;
