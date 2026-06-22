@@ -555,36 +555,31 @@ tr:last-child td {
     <div class="sb-section">Menu</div>
 
     <ul class="menu">
-
-        <a href="${pageContext.request.contextPath}/dashboard"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </li>
-        
+        <a href="${pageContext.request.contextPath}/dashboard" class="menu-anchor">
+            <li><i class="fa-solid fa-house"></i> Dashboard</li>
         </a>
 
-        <a href="${pageContext.request.contextPath}/approval/ssc"
-           class="menu-anchor">
-            
-            <li>
-                <i class="fa-solid fa-calendar-plus"></i>
-                Verifikasi Pengajuan
-            </li>
-        
+        <c:choose>
+            <c:when test="${sessionScope.user.role == 'SSC'}">
+                <a href="${pageContext.request.contextPath}/approval/ssc" class="menu-anchor">
+                    <li><i class="fa-solid fa-calendar-check"></i> Verifikasi Pengajuan</li>
+                </a>
+            </c:when>
+            <c:when test="${sessionScope.user.role == 'LOGAM_TUS'}">
+                <a href="${pageContext.request.contextPath}/approval/logamtus" class="menu-anchor">
+                    <li><i class="fa-solid fa-stamp"></i> Approval Akhir</li>
+                </a>
+            </c:when>
+        </c:choose>
+
+        <a href="${pageContext.request.contextPath}/f03" class="menu-anchor">
+            <li class="active"><i class="fa-solid fa-file-pdf"></i> Generate F03</li>
         </a>
 
-        <a href="${pageContext.request.contextPath}/f03"
-           class="menu-anchor">
-        
-            <li class="active">
-                <i class="fa-solid fa-file-lines"></i>
-                Generate F03
-            </li>
-        
+        <a href="${pageContext.request.contextPath}/notifikasi" class="menu-anchor">
+            <li><i class="fa-solid fa-bell"></i> Notifikasi</li>
         </a>
+
 
         <a href="${pageContext.request.contextPath}/notifikasi"
           class="menu-anchor">
