@@ -1,747 +1,187 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Telkom University Surabaya</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Inter", sans-serif;
-      }
-
-      body {
-        background: #f4f6f9;
-        display: flex;
-        min-height: 100vh;
-      }
-
-      /* ===========================
-   SIDEBAR
-=========================== */
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 240px;
-        height: 100vh;
-        background: linear-gradient(180deg, #b20824, #c8102e, #99001a);
-        color: white;
-        display: flex;
-        flex-direction: column;
-        z-index: 100;
-      }
-
-      .sb-logo {
-        padding: 20px 18px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      }
-
-      .sb-logo-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 4px;
-      }
-
-      .sb-logo-icon {
-        width: 36px;
-        height: 36px;
-        background: white;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-      }
-
-      .sb-logo-icon svg {
-        width: 22px;
-        height: 22px;
-      }
-
-      .sb-logo h1 {
-        font-size: 14px;
-        font-weight: 600;
-        color: white;
-        line-height: 1.3;
-      }
-
-      .sb-logo p {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.7);
-        margin-left: 46px;
-      }
-
-      .sb-section {
-        padding: 16px 18px 6px;
-        font-size: 10px;
-        letter-spacing: 1.5px;
-        color: rgba(255, 255, 255, 0.5);
-        text-transform: uppercase;
-      }
-
-      .menu {
-        list-style: none;
-        padding: 0 10px;
-      }
-
-      .menu li {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 11px 12px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.85);
-        margin-bottom: 2px;
-        transition: background 0.2s;
-        position: relative;
-      }
-
-      .menu li:hover {
-        background: rgba(255, 255, 255, 0.12);
-      }
-
-      .menu li.active {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        font-weight: 600;
-      }
-
-      .menu li i {
-        font-size: 16px;
-        width: 20px;
-        text-align: center;
-      }
-
-      .sb-badge {
-        margin-left: auto;
-        background: rgba(255, 255, 255, 0.25);
-        font-size: 10px;
-        padding: 2px 7px;
-        border-radius: 10px;
-        color: white;
-        font-weight: 600;
-      }
-
-      .sb-bottom {
-        margin-top: auto;
-        padding: 12px 10px;
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-      }
-
-      .sb-bottom .menu {
-        padding: 0;
-        margin-bottom: 10px;
-      }
-
-      .menu-anchor { text-decoration:none; color:inherit; display:block; }
-.sb-copyright {
-        font-size: 10px;
-        color: rgba(255, 255, 255, 0.35);
-        padding: 4px 12px;
-        line-height: 1.5;
-      }
-
-      /* ===========================
-   MAIN CONTENT
-=========================== */
-      .content {
-        margin-left: 240px;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-
-      /* ===========================
-   NAVBAR
-=========================== */
-      .navbar {
-        background: white;
-        padding: 12px 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #f0f0f0;
-        position: sticky;
-        top: 0;
-        z-index: 50;
-      }
-
-      .nb-left {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-
-      .nb-menu-btn {
-        font-size: 20px;
-        color: #888;
-        cursor: pointer;
-      }
-
-      .nb-brand {
-        font-size: 15px;
-        font-weight: 700;
-        color: #c8102e;
-      }
-
-      .nb-sub {
-        font-size: 11px;
-        color: #999;
-      }
-
-      .nb-right {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-
-      .notif-btn {
-        position: relative;
-        width: 36px;
-        height: 36px;
-        border: 1px solid #eee;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        background: white;
-      }
-
-      .notif-btn i {
-        font-size: 17px;
-        color: #666;
-      }
-
-      .notif-count {
-        position: absolute;
-        top: -6px;
-        right: -6px;
-        width: 18px;
-        height: 18px;
-        background: #c8102e;
-        border-radius: 50%;
-        font-size: 10px;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        border: 2px solid white;
-      }
-
-      .user-area {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-      }
-
-      .user-avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background: #f1c0c7;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: 700;
-        color: #7b0013;
-      }
-
-      .user-name {
-        font-size: 13px;
-        font-weight: 600;
-        color: #222;
-      }
-
-      .user-role {
-        font-size: 11px;
-        color: #999;
-      }
-
-      .user-area i {
-        font-size: 13px;
-        color: #aaa;
-      }
-
-      /* ===========================
-   INNER CONTENT
-=========================== */
-      .inner {
-        padding: 20px 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        flex: 1;
-      }
-
-      /* ===========================
-   HERO
-=========================== */
-      .hero {
-        background: white;
-        border-radius: 16px;
-        padding: 28px 32px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid #f0f0f0;
-        overflow: hidden;
-      }
-
-      .hero-text h1 {
-        font-size: 26px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 10px;
-      }
-
-      .hero-text p {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.7;
-        max-width: 380px;
-      }
-
-      .hero-illus {
-        flex-shrink: 0;
-      }
-
-      /* ===========================
-   STAT CARDS
-=========================== */
-      .cards {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-      }
-
-      .card {
-        background: white;
-        border-radius: 16px;
-        padding: 20px;
-        border: 1px solid #f0f0f0;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-
-      .card-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        font-size: 22px;
-      }
-
-      .card-icon.red {
-        background: #ffeaed;
-        color: #c8102e;
-      }
-      .card-icon.yellow {
-        background: #fef9e7;
-        color: #d97706;
-      }
-      .card-icon.green {
-        background: #eaf7f0;
-        color: #16a34a;
-      }
-      .card-icon.gray {
-        background: #f4f4f4;
-        color: #6b7280;
-      }
-
-      .card-label {
-        font-size: 12px;
-        color: #888;
-        margin-bottom: 4px;
-      }
-
-      .card-num {
-        font-size: 32px;
-        font-weight: 700;
-        color: #1a1a1a;
-        line-height: 1;
-      }
-
-      .card-sub {
-        font-size: 11px;
-        color: #aaa;
-        margin-top: 4px;
-      }
-
-      /* ===========================
-   TABLE BOX
-=========================== */
-      .table-box {
-        background: white;
-        border-radius: 16px;
-        padding: 22px 24px;
-        border: 1px solid #f0f0f0;
-      }
-
-      .table-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 18px;
-      }
-
-      .table-header h2 {
-        font-size: 16px;
-        font-weight: 700;
-        color: #1a1a1a;
-      }
-
-      .lihat-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        color: #c8102e;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      thead {
-        background: #fafafa;
-        border-radius: 8px;
-      }
-
-      th {
-        padding: 12px 14px;
-        text-align: left;
-        font-size: 12px;
-        font-weight: 600;
-        color: #888;
-        border-bottom: 1px solid #f0f0f0;
-      }
-
-      td {
-        padding: 16px 14px;
-        border-bottom: 1px solid #f5f5f5;
-        font-size: 13px;
-        color: #333;
-      }
-
-      tr:last-child td {
-        border-bottom: none;
-      }
-
-      .td-no {
-        color: #aaa;
-        font-weight: 500;
-      }
-
-      .badge {
-        display: inline-block;
-        padding: 5px 14px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-      }
-
-      .badge.pending {
-        background: #fef9e7;
-        color: #b45309;
-      }
-      .badge.approve {
-        background: #eaf7f0;
-        color: #15803d;
-      }
-      .badge.reject {
-        background: #ffeaed;
-        color: #b91c1c;
-      }
-
-      .action-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: #bbb;
-        font-size: 18px;
-        padding: 4px 6px;
-        border-radius: 6px;
-        transition:
-          background 0.2s,
-          color 0.2s;
-      }
-
-      .action-btn:hover {
-        background: #f5f5f5;
-        color: #555;
-      }
-
-      /* ===========================
-   FOOTER
-=========================== */
-      .footer {
-        position: absolute;
-
-        bottom: 0;
-        text-align: center;
-        padding: 20px;
-        font-size: 12px;
-        color: #aaa;
-      }
-
-.btn-green{
-    background:#16a34a;
-    color:white;
-    border:none;
-    padding:10px 16px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-right:8px;
-}
-
-.btn-green:hover{
-    background:#15803d;
-}
-
-.btn-red{
-    background:#c8102e;
-    color:white;
-    border:none;
-    padding:10px 16px;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.btn-red:hover{
-    background:#a30f28;
-}
-
-.badge.pending{
-    background:#fef3c7;
-    color:#b45309;
-    padding:6px 12px;
-    border-radius:20px;
-    font-weight:600;
-}
-    </style>
-  </head>
-
-  <body>
-    <!-- ===========================
-     SIDEBAR
-=========================== -->
-    <div class="sidebar">
-      <div class="sb-logo">
-        <div class="sb-logo-row">
-          <div class="sb-logo-icon">
-            <!-- Telkom-style icon -->
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z"
-                fill="#C8102E"
-              />
-              <rect x="9" y="15" width="6" height="6" fill="#99001A" />
-            </svg>
-          </div>
-          <h1>Telkom University Surabaya</h1>
-        </div>
-      </div>
-
-      <div class="sb-section">Menu</div>
-
-      <ul class="menu">
-        <a href="${pageContext.request.contextPath}/dashboard"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </li>
-        
-        </a>
-        <a
-          href="${pageContext.request.contextPath}/approval/pembina"
-          class="menu-anchor"
-        >
-          <li class="active">
-            <i class="fa-solid fa-square-check"></i>
-            Approval Pengajuan
-          </li>
-        </a>
-
-        <a
-          href="${pageContext.request.contextPath}/notifikasi"
-          class="menu-anchor"
-        >
-          <li>
-            <i class="fa-solid fa-bell"></i>
-            Notifikasi
-            <span class="sb-badge">3</span>
-          </li>
-        </a>
-      </ul>
-
-      <div class="sb-bottom">
-        <ul class="menu">
-          <a href="${pageContext.request.contextPath}/logout" class="menu-anchor">
-          <li>
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Logout
-          </li>
-          </a>
-        </ul>
-        <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
-      </div>
-    </div>
-
-    <!-- ===========================
-     MAIN CONTENT
-=========================== -->
-    <div class="content">
-      <!-- NAVBAR -->
-      <div class="navbar">
-        <div class="nb-left">
-          <i class="fa-solid fa-bars nb-menu-btn"></i>
-          <div>
+<head>
+<meta charset="UTF-8">
+<title>Telkom University Surabaya</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+body { background:#f4f6f9; display:flex; min-height:100vh; }
+.sidebar { position:fixed; top:0; left:0; width:240px; height:100vh; background:linear-gradient(180deg,#B20824,#C8102E,#99001A); color:white; display:flex; flex-direction:column; z-index:100; }
+.sb-logo { padding:20px 18px 16px; border-bottom:1px solid rgba(255,255,255,.15); }
+.sb-logo-row { display:flex; align-items:center; gap:10px; }
+.sb-logo-icon { width:36px; height:36px; background:white; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+.sb-logo-icon svg { width:22px; height:22px; }
+.sb-logo h1 { font-size:14px; font-weight:600; color:white; }
+.sb-section { padding:16px 18px 6px; font-size:10px; letter-spacing:1.5px; color:rgba(255,255,255,.5); text-transform:uppercase; }
+.menu { list-style:none; padding:0 10px; }
+.menu li { display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:10px; font-size:13px; color:rgba(255,255,255,.85); margin-bottom:2px; transition:background .2s; }
+.menu li:hover { background:rgba(255,255,255,.12); }
+.menu li.active { background:rgba(255,255,255,.2); color:white; font-weight:600; }
+.menu li i { font-size:16px; width:20px; text-align:center; }
+.sb-badge { margin-left:auto; background:rgba(255,255,255,.25); font-size:10px; padding:2px 7px; border-radius:10px; color:white; font-weight:600; }
+.sb-bottom { margin-top:auto; padding:12px 10px; border-top:1px solid rgba(255,255,255,.12); }
+.sb-copyright { font-size:10px; color:rgba(255,255,255,.35); padding:4px 12px; }
+.menu-anchor { text-decoration:none; color:inherit; display:block; }
+.content { margin-left:240px; flex:1; display:flex; flex-direction:column; min-height:100vh; }
+.navbar { background:white; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f0f0f0; position:sticky; top:0; z-index:50; }
+.nb-brand { font-size:15px; font-weight:700; color:#C8102E; }
+.nb-sub { font-size:11px; color:#999; }
+.user-area { display:flex; align-items:center; gap:10px; }
+.user-avatar { width:34px; height:34px; border-radius:50%; background:#f1c0c7; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#7b0013; }
+.user-name { font-size:13px; font-weight:600; color:#222; }
+.user-role { font-size:11px; color:#999; }
+.inner { padding:20px 24px; display:flex; flex-direction:column; gap:18px; flex:1; }
+.table-box { background:white; border-radius:16px; padding:22px 24px; border:1px solid #f0f0f0; }
+.table-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.table-header h2 { font-size:16px; font-weight:700; color:#1a1a1a; }
+table { width:100%; border-collapse:collapse; }
+th { padding:12px 14px; text-align:left; font-size:12px; font-weight:600; color:#888; border-bottom:1px solid #f0f0f0; background:#fafafa; }
+td { padding:14px 14px; border-bottom:1px solid #f5f5f5; font-size:13px; color:#333; }
+tr:last-child td { border-bottom:none; }
+.badge { display:inline-block; padding:5px 14px; border-radius:20px; font-size:12px; font-weight:600; }
+.badge.pending { background:#fef3c7; color:#b45309; }
+.badge.approve { background:#eaf7f0; color:#15803d; }
+.badge.reject { background:#ffeaed; color:#b91c1c; }
+.btn-green { background:#16a34a; color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-size:12px; }
+.btn-green:hover { background:#15803d; }
+.btn-red { background:#C8102E; color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-size:12px; }
+.btn-red:hover { background:#a30f28; }
+</style>
+</head>
+<body>
+
+<jsp:include page="/WEB-INF/views/fragments/sidebar-role.jsp">
+    <jsp:param name="active" value="approval"/>
+</jsp:include>
+
+<div class="content">
+    <div class="navbar">
+        <div>
             <div class="nb-brand">Peminjaman Ruang TEL-U</div>
             <div class="nb-sub">Sistem Peminjaman Ruangan</div>
-          </div>
         </div>
-        <div class="nb-right">
-          <div class="user-area">
-            <div class="user-avatar">PB</div>
+        <div class="user-area">
+            <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
             <div>
-              <div class="user-name">Pembina</div>
-              <div class="user-role">Pembina</div>
+                <div class="user-name">${sessionScope.user.nama}</div>
+                <div class="user-role">${sessionScope.user.role}</div>
             </div>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
         </div>
-      </div>
-
-<div class="inner">
-
-    <div class="table-box">
-
-        <div class="table-header">
-            <h2>Approval Pengajuan Pembina</h2>
-        </div>
-
-        <table>
-
-            <thead>
-
-            <tr>
-                <th>No Tiket</th>
-                <th>Peminjam</th>
-                <th>Ruangan</th>
-                <th>Tanggal Pinjam</th>
-                <th>Keperluan</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-
-            </thead>
-
-            <tbody>
-
-            <tr>
-
-                <td>TKT-001</td>
-
-                <td>Peminjam Demo</td>
-
-                <td>Aula</td>
-
-                <td>25 Juni 2026</td>
-
-                <td>Seminar Teknologi Nasional</td>
-
-                <td>
-                    <span class="badge pending">
-                        MENUNGGU PEMBINA
-                    </span>
-                </td>
-
-                <td>
-
-                    <button class="btn-green">
-                        Setujui
-                    </button>
-
-                    <button class="btn-red">
-                        Tolak
-                    </button>
-
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>TKT-002</td>
-
-                <td>Peminjam Demo</td>
-
-                <td>Lapangan Hybrid</td>
-
-                <td>27 Juni 2026</td>
-
-                <td>Pelatihan Organisasi Mahasiswa</td>
-
-                <td>
-                    <span class="badge pending">
-                        MENUNGGU PEMBINA
-                    </span>
-                </td>
-
-                <td>
-
-                    <button class="btn-green">
-                        Setujui
-                    </button>
-
-                    <button class="btn-red">
-                        Tolak
-                    </button>
-
-                </td>
-
-            </tr>
-
-            </tbody>
-
-        </table>
-
     </div>
 
+    <div class="inner">
+        <c:if test="${not empty param.success}">
+            <div style="background:#eaf7f0;color:#15803d;padding:12px 18px;border-radius:10px;font-size:13px;">
+                Tindakan berhasil disimpan.
+            </div>
+        </c:if>
+
+        <div class="table-box">
+            <div class="table-header">
+                <h2>Approval Pengajuan Pembina</h2>
+                <span style="font-size:13px;color:#888;">${total} pengajuan</span>
+            </div>
+
+            <%-- Search bar --%>
+            <form method="get" action="${pageContext.request.contextPath}/approval/pembina" style="display:flex;gap:10px;margin-bottom:16px;">
+                <input type="text" name="keyword" value="${param.keyword}"
+                       placeholder="🔍 Cari no tiket, peminjam, atau ruangan..."
+                       style="flex:1;padding:9px 13px;border:1px solid #e5e7eb;border-radius:9px;font-size:13px;outline:none;"/>
+                <button type="submit" style="background:#C8102E;color:white;border:none;padding:9px 18px;border-radius:9px;font-size:13px;cursor:pointer;">
+                    <i class="fa-solid fa-magnifying-glass"></i> Cari
+                </button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No Tiket</th>
+                        <th>Peminjam</th>
+                        <th>Ruangan</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Keperluan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty pendingList}">
+                            <tr><td colspan="6" style="text-align:center;padding:40px;color:#aaa;">Tidak ada pengajuan yang menunggu persetujuan.</td></tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="p" items="${pendingList}">
+                                <tr>
+                                    <td><strong>${p.noTiket}</strong></td>
+                                    <td>${p.namaUser}</td>
+                                    <td>${not empty p.namaRuangan ? p.namaRuangan : '-'}</td>
+                                    <td><fmt:formatDate value="${p.tanggalPinjam}" pattern="dd/MM/yyyy"/></td>
+                                    <td>${p.keperluan}</td>
+                                    <td>
+                                        <button class="btn-green" onclick="openModal(${p.id}, 'setujui')">
+                                            <i class="fa-solid fa-check"></i> Setujui
+                                        </button>
+                                        <button class="btn-red" onclick="openModal(${p.id}, 'tolak')" style="margin-left:6px;">
+                                            <i class="fa-solid fa-xmark"></i> Tolak
+                                        </button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+
+            <%-- Paginasi --%>
+            <c:if test="${totalPages > 1}">
+                <div style="display:flex;justify-content:center;gap:6px;margin-top:20px;flex-wrap:wrap;">
+                    <c:forEach begin="1" end="${totalPages}" var="p">
+                        <a href="?keyword=${param.keyword}&page=${p}"
+                           style="padding:6px 12px;border-radius:8px;border:1px solid #e5e7eb;font-size:13px;text-decoration:none;
+                                  background:${p == page ? '#C8102E' : 'white'};color:${p == page ? 'white' : '#333'};">${p}</a>
+                    </c:forEach>
+                </div>
+            </c:if>
+        </div>
+    </div>
 </div>
 
-      <!-- /inner -->
+<%-- Modal Konfirmasi --%>
+<div id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:16px;padding:28px;width:420px;">
+        <h3 id="modalTitle" style="margin-bottom:16px;font-size:16px;">Konfirmasi</h3>
+        <form method="post" action="${pageContext.request.contextPath}/approval/pembina">
+            <input type="hidden" name="pengajuan_id" id="modalPengajuanId"/>
+            <input type="hidden" name="action" id="modalAction"/>
+            <label style="font-size:13px;color:#555;display:block;margin-bottom:6px;">Catatan (opsional):</label>
+            <textarea name="catatan" style="width:100%;border:1px solid #e0e0e0;border-radius:8px;padding:10px;font-size:13px;resize:vertical;min-height:80px;" placeholder="Tambahkan catatan..."></textarea>
+            <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;">
+                <button type="button" onclick="closeModal()" style="background:#f0f0f0;color:#555;border:none;padding:9px 18px;border-radius:8px;cursor:pointer;">Batal</button>
+                <button type="submit" id="modalSubmit" class="btn-green">Konfirmasi</button>
+            </div>
+        </form>
     </div>
-    <!-- /content -->
-  </body>
+</div>
+
+<script>
+function openModal(id, action) {
+    document.getElementById('modalPengajuanId').value = id;
+    document.getElementById('modalAction').value = action;
+    const isSetujui = action === 'setujui';
+    document.getElementById('modalTitle').textContent = isSetujui ? 'Setujui Pengajuan' : 'Tolak Pengajuan';
+    const btn = document.getElementById('modalSubmit');
+    btn.textContent = 'Konfirmasi';
+    btn.className = isSetujui ? 'btn-green' : 'btn-red';
+    document.getElementById('modalOverlay').style.display = 'flex';
+}
+function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+}
+</script>
+
+</body>
 </html>

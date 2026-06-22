@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/approval/pembina")
 public class ApprovalPembinaController extends HttpServlet {
@@ -33,14 +32,21 @@ public class ApprovalPembinaController extends HttpServlet {
             return;
         }
 
-        // Ambil pengajuan yang menunggu persetujuan pembina
-        PengajuanDAO pengajuanDAO = new PengajuanDAO();
-        List<Pengajuan> pendingList = pengajuanDAO.findByStatus("MENUNGGU_PEMBINA");
-        request.setAttribute("pendingList", pendingList);
+        String keyword = request.getParameter("keyword");
+        int page = 1;
+        try { page = Integer.parseInt(request.getParameter("page")); } catch (Exception ignored) {}
+        if (page < 1) page = 1;
 
-        request.getRequestDispatcher(
-                "/WEB-INF/views/approval/pembina.jsp")
-                .forward(request, response);
+        final int PAGE_SIZE = 10;
+        PengajuanDAO pengajuanDAO = new PengajuanDAO();
+        int total = pengajuanDAO.count(null, "MENUNGGU_PEMBINA", keyword);
+
+        request.setAttribute("pendingList", pengajuanDAO.search(null, "MENUNGGU_PEMBINA", keyword, page, PAGE_SIZE));
+        request.setAttribute("total", total);
+        request.setAttribute("page", page);
+        request.setAttribute("totalPages", (int) Math.ceil((double) total / PAGE_SIZE));
+
+        request.getRequestDispatcher("/WEB-INF/views/approval/pembina.jsp").forward(request, response);
     }
 
     @Override
