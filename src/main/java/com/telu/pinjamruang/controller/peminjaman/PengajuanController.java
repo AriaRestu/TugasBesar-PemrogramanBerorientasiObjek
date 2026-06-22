@@ -39,9 +39,11 @@ public class PengajuanController extends HttpServlet {
         // Siapkan data ruangan & logistik untuk form
         RuanganDAO ruanganDAO = new RuanganDAO();
         LogistikDAO logistikDAO = new LogistikDAO();
+        com.telu.pinjamruang.dao.auth.UserDAO userDAO = new com.telu.pinjamruang.dao.auth.UserDAO();
 
         request.setAttribute("ruanganList", ruanganDAO.findAllAktif());
         request.setAttribute("logistikList", logistikDAO.findAllAktif());
+        request.setAttribute("pembinaList", userDAO.findByRole("PEMBINA"));
 
         request.getRequestDispatcher(
                 "/WEB-INF/views/peminjaman/create.jsp")
@@ -73,6 +75,11 @@ public class PengajuanController extends HttpServlet {
         String ruanganIdStr = request.getParameter("ruangan_id");
         if (ruanganIdStr != null && !ruanganIdStr.isEmpty()) {
             p.setRuanganId(Integer.parseInt(ruanganIdStr));
+        }
+
+        String pembinaIdStr = request.getParameter("pembina_id");
+        if (pembinaIdStr != null && !pembinaIdStr.isEmpty()) {
+            p.setPembinaId(Integer.parseInt(pembinaIdStr));
         }
 
         p.setTanggalPinjam(Date.valueOf(request.getParameter("tanggal_pinjam")));
@@ -120,18 +127,15 @@ public class PengajuanController extends HttpServlet {
                 }
             }
 
-            // Kirim notifikasi ke pembina
+            // Kirim notifikasi ke pembina yang dipilih saja
             NotifikasiDAO notifDAO = new NotifikasiDAO();
-            Notifikasi notif = new Notifikasi();
-            notif.setPesan("Pengajuan baru #" + p.getNoTiket() + " dari " + user.getNama() + " menunggu persetujuan Anda.");
-            notif.setTipe("PENGAJUAN_BARU");
-            notif.setPengajuanId(pengajuanId);
-            notif.setLink(request.getContextPath() + "/detail-pengajuan?id=" + pengajuanId);
-
-            // Kirim ke semua pembina
-            com.telu.pinjamruang.dao.auth.UserDAO userDAO = new com.telu.pinjamruang.dao.auth.UserDAO();
-            for (User pembina : userDAO.findByRole("PEMBINA")) {
-                notif.setUserId(pembina.getId());
+            if (p.getPembinaId() != null) {
+                Notifikasi notif = new Notifikasi();
+                notif.setUserId(p.getPembinaId());
+                notif.setPesan("Pengajuan baru #" + p.getNoTiket() + " dari " + user.getNama() + " menunggu persetujuan Anda.");
+                notif.setTipe("PENGAJUAN_BARU");
+                notif.setPengajuanId(pengajuanId);
+                notif.setLink(request.getContextPath() + "/detail-pengajuan?id=" + pengajuanId);
                 notifDAO.insert(notif);
             }
 

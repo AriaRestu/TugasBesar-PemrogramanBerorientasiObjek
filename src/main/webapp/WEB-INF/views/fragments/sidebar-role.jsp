@@ -6,14 +6,33 @@
         <jsp:param name="active" value="dashboard|approval|f03|notifikasi"/>
     </jsp:include>
 --%>
-<div class="sidebar">
+<style>
+@media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform .25s ease; }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 99; }
+    .sidebar-overlay.open { display: block; }
+    .content { margin-left: 0 !important; }
+    .hamburger { display: flex !important; }
+}
+.hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border: 1px solid #eee; border-radius: 10px;
+    background: white; cursor: pointer; font-size: 18px; color: #555;
+    margin-right: 12px;
+}
+</style>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="sidebar" id="appSidebar">
     <div class="sb-logo">
         <div class="sb-logo-row">
             <div class="sb-logo-icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="#C8102E"/>
-                    <rect x="9" y="15" width="6" height="6" fill="#99001A"/>
-                </svg>
+                <img src="${pageContext.request.contextPath}/assets/images/pngegg.png" alt="Logo" style="width:28px;height:28px;object-fit:contain;"/>
             </div>
             <h1>Telkom University Surabaya</h1>
         </div>
@@ -94,3 +113,24 @@
         <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
     </div>
 </div>
+
+<script>
+function openSidebar() {
+    document.getElementById('appSidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
+}
+function closeSidebar() {
+    document.getElementById('appSidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+}
+// Inject hamburger button ke dalam .navbar setelah halaman load
+document.addEventListener('DOMContentLoaded', function() {
+    var navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+    var btn = document.createElement('button');
+    btn.className = 'hamburger';
+    btn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    btn.onclick = openSidebar;
+    navbar.insertBefore(btn, navbar.firstChild);
+});
+</script>

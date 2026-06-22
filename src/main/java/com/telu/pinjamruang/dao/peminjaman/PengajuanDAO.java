@@ -17,10 +17,10 @@ public class PengajuanDAO extends BaseDAO {
 
         String sql =
                 "INSERT INTO pengajuan " +
-                "(user_id, ruangan_id, no_tiket, jenis_pengajuan, " +
+                "(user_id, ruangan_id, pembina_id, no_tiket, jenis_pengajuan, " +
                 "tanggal_pinjam, waktu_mulai, waktu_selesai, " +
                 "keperluan, catatan, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (
                 Connection conn = getConnection();
@@ -34,14 +34,20 @@ public class PengajuanDAO extends BaseDAO {
                 ps.setNull(2, java.sql.Types.INTEGER);
             }
 
-            ps.setString(3, p.getNoTiket());
-            ps.setString(4, p.getJenisPengajuan());
-            ps.setDate(5, p.getTanggalPinjam());
-            ps.setTime(6, p.getWaktuMulai());
-            ps.setTime(7, p.getWaktuSelesai());
-            ps.setString(8, p.getKeperluan());
-            ps.setString(9, p.getCatatan());
-            ps.setString(10, p.getStatus() != null ? p.getStatus() : "DRAFT");
+            if (p.getPembinaId() != null) {
+                ps.setInt(3, p.getPembinaId());
+            } else {
+                ps.setNull(3, java.sql.Types.INTEGER);
+            }
+
+            ps.setString(4, p.getNoTiket());
+            ps.setString(5, p.getJenisPengajuan());
+            ps.setDate(6, p.getTanggalPinjam());
+            ps.setTime(7, p.getWaktuMulai());
+            ps.setTime(8, p.getWaktuSelesai());
+            ps.setString(9, p.getKeperluan());
+            ps.setString(10, p.getCatatan());
+            ps.setString(11, p.getStatus() != null ? p.getStatus() : "DRAFT");
 
             ps.executeUpdate();
 
@@ -60,10 +66,11 @@ public class PengajuanDAO extends BaseDAO {
     public Pengajuan findById(int id) {
 
         String sql =
-                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan " +
+                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan, pb.nama AS nama_pembina " +
                 "FROM pengajuan p " +
                 "JOIN users u ON p.user_id = u.id " +
                 "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+                "LEFT JOIN users pb ON p.pembina_id = pb.id " +
                 "WHERE p.id = ?";
 
         try (
@@ -89,10 +96,11 @@ public class PengajuanDAO extends BaseDAO {
         List<Pengajuan> list = new ArrayList<>();
 
         String sql =
-                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan " +
+                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan, pb.nama AS nama_pembina " +
                 "FROM pengajuan p " +
                 "JOIN users u ON p.user_id = u.id " +
                 "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+                "LEFT JOIN users pb ON p.pembina_id = pb.id " +
                 "WHERE p.user_id = ? " +
                 "ORDER BY p.tanggal_pengajuan DESC";
 
@@ -119,10 +127,11 @@ public class PengajuanDAO extends BaseDAO {
         List<Pengajuan> list = new ArrayList<>();
 
         String sql =
-                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan " +
+                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan, pb.nama AS nama_pembina " +
                 "FROM pengajuan p " +
                 "JOIN users u ON p.user_id = u.id " +
                 "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+                "LEFT JOIN users pb ON p.pembina_id = pb.id " +
                 "WHERE p.status = ? " +
                 "ORDER BY p.tanggal_pengajuan DESC";
 
@@ -149,10 +158,11 @@ public class PengajuanDAO extends BaseDAO {
         List<Pengajuan> list = new ArrayList<>();
 
         String sql =
-                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan " +
+                "SELECT p.*, u.nama AS nama_user, r.nama_ruangan, pb.nama AS nama_pembina " +
                 "FROM pengajuan p " +
                 "JOIN users u ON p.user_id = u.id " +
                 "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+                "LEFT JOIN users pb ON p.pembina_id = pb.id " +
                 "ORDER BY p.tanggal_pengajuan DESC";
 
         try (
@@ -255,9 +265,10 @@ public class PengajuanDAO extends BaseDAO {
     public List<Pengajuan> search(Integer userId, String status, String keyword, int page, int pageSize) {
         List<Pengajuan> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
-            "SELECT p.*, u.nama AS nama_user, r.nama_ruangan " +
+            "SELECT p.*, u.nama AS nama_user, r.nama_ruangan, pb.nama AS nama_pembina " +
             "FROM pengajuan p JOIN users u ON p.user_id = u.id " +
-            "LEFT JOIN ruangan r ON p.ruangan_id = r.id WHERE 1=1");
+            "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+            "LEFT JOIN users pb ON p.pembina_id = pb.id WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
         if (userId != null)               { sql.append(" AND p.user_id = ?");  params.add(userId); }
@@ -340,7 +351,68 @@ public class PengajuanDAO extends BaseDAO {
             p.setNamaRuangan(rs.getString("nama_ruangan"));
         } catch (Exception ignored) {
         }
+        try {
+            int pembinaId = rs.getInt("pembina_id");
+            if (!rs.wasNull()) p.setPembinaId(pembinaId);
+        } catch (Exception ignored) {
+        }
+        try {
+            p.setNamaPembina(rs.getString("nama_pembina"));
+        } catch (Exception ignored) {
+        }
 
         return p;
+    }
+
+    /** Cari pengajuan MENUNGGU_PEMBINA untuk pembina tertentu */
+    public List<Pengajuan> searchByPembina(int pembinaId, String keyword, int page, int pageSize) {
+        List<Pengajuan> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+            "SELECT p.*, u.nama AS nama_user, r.nama_ruangan, pb.nama AS nama_pembina " +
+            "FROM pengajuan p JOIN users u ON p.user_id = u.id " +
+            "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+            "LEFT JOIN users pb ON p.pembina_id = pb.id " +
+            "WHERE p.pembina_id = ? AND p.status = 'MENUNGGU_PEMBINA'");
+        List<Object> params = new ArrayList<>();
+        params.add(pembinaId);
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND (p.no_tiket LIKE ? OR p.keperluan LIKE ? OR r.nama_ruangan LIKE ? OR u.nama LIKE ?)");
+            String kw = "%" + keyword + "%";
+            params.add(kw); params.add(kw); params.add(kw); params.add(kw);
+        }
+        sql.append(" ORDER BY p.tanggal_pengajuan DESC LIMIT ? OFFSET ?");
+        params.add(pageSize);
+        params.add((page - 1) * pageSize);
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) ps.setObject(i + 1, params.get(i));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) list.add(mapRow(rs));
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
+
+    /** Hitung total untuk searchByPembina */
+    public int countByPembina(int pembinaId, String keyword) {
+        StringBuilder sql = new StringBuilder(
+            "SELECT COUNT(*) FROM pengajuan p JOIN users u ON p.user_id = u.id " +
+            "LEFT JOIN ruangan r ON p.ruangan_id = r.id " +
+            "WHERE p.pembina_id = ? AND p.status = 'MENUNGGU_PEMBINA'");
+        List<Object> params = new ArrayList<>();
+        params.add(pembinaId);
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND (p.no_tiket LIKE ? OR p.keperluan LIKE ? OR r.nama_ruangan LIKE ? OR u.nama LIKE ?)");
+            String kw = "%" + keyword + "%";
+            params.add(kw); params.add(kw); params.add(kw); params.add(kw);
+        }
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) ps.setObject(i + 1, params.get(i));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) { e.printStackTrace(); }
+        return 0;
     }
 }

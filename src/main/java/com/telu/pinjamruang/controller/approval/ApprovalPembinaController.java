@@ -39,9 +39,9 @@ public class ApprovalPembinaController extends HttpServlet {
 
         final int PAGE_SIZE = 10;
         PengajuanDAO pengajuanDAO = new PengajuanDAO();
-        int total = pengajuanDAO.count(null, "MENUNGGU_PEMBINA", keyword);
+        int total = pengajuanDAO.countByPembina(user.getId(), keyword);
 
-        request.setAttribute("pendingList", pengajuanDAO.search(null, "MENUNGGU_PEMBINA", keyword, page, PAGE_SIZE));
+        request.setAttribute("pendingList", pengajuanDAO.searchByPembina(user.getId(), keyword, page, PAGE_SIZE));
         request.setAttribute("total", total);
         request.setAttribute("page", page);
         request.setAttribute("totalPages", (int) Math.ceil((double) total / PAGE_SIZE));

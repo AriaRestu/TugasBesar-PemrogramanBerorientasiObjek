@@ -105,7 +105,7 @@ td{
     flex-shrink: 0;
 }
 
-.sb-logo-icon svg {
+.sb-logo-icon svg, .sb-logo-icon img {
     width: 22px;
     height: 22px;
 }

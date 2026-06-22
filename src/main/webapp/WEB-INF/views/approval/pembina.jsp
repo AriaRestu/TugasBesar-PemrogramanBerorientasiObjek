@@ -15,7 +15,7 @@ body { background:#f4f6f9; display:flex; min-height:100vh; }
 .sb-logo { padding:20px 18px 16px; border-bottom:1px solid rgba(255,255,255,.15); }
 .sb-logo-row { display:flex; align-items:center; gap:10px; }
 .sb-logo-icon { width:36px; height:36px; background:white; border-radius:8px; display:flex; align-items:center; justify-content:center; }
-.sb-logo-icon svg { width:22px; height:22px; }
+.sb-logo-icon svg, .sb-logo-icon img { width:22px; height:22px; }
 .sb-logo h1 { font-size:14px; font-weight:600; color:white; }
 .sb-section { padding:16px 18px 6px; font-size:10px; letter-spacing:1.5px; color:rgba(255,255,255,.5); text-transform:uppercase; }
 .menu { list-style:none; padding:0 10px; }

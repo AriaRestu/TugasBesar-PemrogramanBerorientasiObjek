@@ -15,7 +15,7 @@ body { background:#f4f6f9; display:flex; min-height:100vh; }
 .sb-logo { padding:20px 18px 16px; border-bottom:1px solid rgba(255,255,255,.15); }
 .sb-logo-row { display:flex; align-items:center; gap:10px; }
 .sb-logo-icon { width:36px; height:36px; background:white; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.sb-logo-icon svg { width:22px; height:22px; }
+.sb-logo-icon svg, .sb-logo-icon img { width:22px; height:22px; }
 .sb-logo h1 { font-size:14px; font-weight:600; color:white; }
 .sb-section { padding:16px 18px 6px; font-size:10px; letter-spacing:1.5px; color:rgba(255,255,255,.5); text-transform:uppercase; }
 .menu { list-style:none; padding:0 10px; }
@@ -76,17 +76,11 @@ tr:last-child td { border-bottom:none; }
             <div class="nb-brand">Peminjaman Ruang TEL-U</div>
             <div class="nb-sub">Sistem Peminjaman Ruangan</div>
         </div>
-        <div style="display:flex;align-items:center;gap:14px;">
-            <a href="${pageContext.request.contextPath}/notifikasi" class="notif-btn">
-                <i class="fa-solid fa-bell"></i>
-                <c:if test="${unreadCount > 0}"><span class="notif-count">${unreadCount}</span></c:if>
-            </a>
-            <div class="user-area">
-                <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
-                <div>
-                    <div class="user-name">${sessionScope.user.nama}</div>
-                    <div class="user-role">${sessionScope.user.role}</div>
-                </div>
+        <div class="user-area">
+            <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
+            <div>
+                <div class="user-name">${sessionScope.user.nama}</div>
+                <div class="user-role">${sessionScope.user.role}</div>
             </div>
         </div>
     </div>

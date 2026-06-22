@@ -105,7 +105,7 @@ td{
     flex-shrink: 0;
 }
 
-.sb-logo-icon svg {
+.sb-logo-icon svg, .sb-logo-icon img {
     width: 22px;
     height: 22px;
 }
@@ -550,7 +550,6 @@ tr:last-child td {
     <!-- NAVBAR -->
     <div class="navbar">
         <div class="nb-left">
-            <i class="fa-solid fa-bars nb-menu-btn"></i>
             <div>
                 <div class="nb-brand">Peminjaman Ruang TEL-U</div>
                 <div class="nb-sub">Sistem Peminjaman Ruangan</div>

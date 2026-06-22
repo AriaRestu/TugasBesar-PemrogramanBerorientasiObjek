@@ -19,9 +19,12 @@ public class Pengajuan {
     private String catatan;
     private String status;
 
+    private Integer pembinaId;
+
     // Relasi — untuk tampilan
     private String namaUser;
     private String namaRuangan;
+    private String namaPembina;
 
     public Pengajuan() {
     }
@@ -136,5 +139,21 @@ public class Pengajuan {
 
     public void setNamaRuangan(String namaRuangan) {
         this.namaRuangan = namaRuangan;
+    }
+
+    public Integer getPembinaId() {
+        return pembinaId;
+    }
+
+    public void setPembinaId(Integer pembinaId) {
+        this.pembinaId = pembinaId;
+    }
+
+    public String getNamaPembina() {
+        return namaPembina;
+    }
+
+    public void setNamaPembina(String namaPembina) {
+        this.namaPembina = namaPembina;
     }
 }
