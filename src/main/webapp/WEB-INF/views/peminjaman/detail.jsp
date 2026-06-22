@@ -50,6 +50,8 @@ body { background:#f4f6f9; display:flex; min-height:100vh; }
 .badge.reject  { background:#ffeaed; color:#b91c1c; }
 .btn-secondary { display:inline-flex; align-items:center; gap:8px; background:white; color:#666; border:1.5px solid #e5e7eb; border-radius:10px; padding:10px 20px; font-size:13px; font-weight:600; text-decoration:none; cursor:pointer; }
 .btn-secondary:hover { background:#f9f9f9; }
+.btn-download { display:inline-flex; align-items:center; gap:8px; background:#15803d; color:white; border:none; border-radius:10px; padding:10px 20px; font-size:13px; font-weight:600; text-decoration:none; cursor:pointer; }
+.btn-download:hover { background:#166534; }
 </style>
 </head>
 <body>
@@ -79,9 +81,18 @@ body { background:#f4f6f9; display:flex; min-height:100vh; }
                 <div class="page-title">Detail Pengajuan</div>
                 <div class="page-sub">Informasi lengkap peminjaman ruangan</div>
             </div>
-            <a href="${pageContext.request.contextPath}/riwayat" class="btn-secondary">
-                <i class="fa-solid fa-arrow-left"></i> Kembali
-            </a>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <%-- Tombol cetak tiket F03 — hanya muncul jika status DISETUJUI dan F03 sudah diterbitkan --%>
+                <c:if test="${pengajuan.status == 'DISETUJUI' and not empty f03}">
+                    <a href="${pageContext.request.contextPath}/f03?download=${f03.id}"
+                       class="btn-download" target="_blank">
+                        <i class="fa-solid fa-file-pdf"></i> Cetak Tiket Persetujuan
+                    </a>
+                </c:if>
+                <a href="${pageContext.request.contextPath}/riwayat" class="btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </a>
+            </div>
         </div>
 
         <div class="box">

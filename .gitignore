@@ -29,3 +29,5 @@ tomcat/
 # OS
 .DS_Store
 Thumbs.db
+
+/docs/OOP_MAPPING.md

@@ -1,5 +1,6 @@
 package com.telu.pinjamruang.controller.ruang;
 
+import com.telu.pinjamruang.common.BaseViewController;
 import com.telu.pinjamruang.dao.ruang.RuanganDAO;
 import com.telu.pinjamruang.model.auth.User;
 import com.telu.pinjamruang.model.ruang.Ruangan;
@@ -7,15 +8,23 @@ import com.telu.pinjamruang.util.SessionUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+/**
+ * [INHERITANCE] RuanganController extends BaseViewController extends HttpServlet
+ * [POLYMORPHISM] Override doGet() dan doPost() dari HttpServlet
+ */
 @WebServlet("/ruangan")
-public class RuanganController extends HttpServlet {
+public class RuanganController extends BaseViewController {
 
+    public RuanganController() {
+        super("/WEB-INF/views/ruang/ruangan.jsp");
+    }
+
+    /** [POLYMORPHISM] Override doGet — tampilkan daftar ruangan */
     @Override
     protected void doGet(
             HttpServletRequest request,
@@ -28,9 +37,9 @@ public class RuanganController extends HttpServlet {
             return;
         }
 
+        // [OBJECT] Instantiasi RuanganDAO
         RuanganDAO ruanganDAO = new RuanganDAO();
 
-        // Admin (SSC, LOGAM_TUS) bisa lihat semua termasuk non-aktif
         if ("SSC".equals(user.getRole()) || "LOGAM_TUS".equals(user.getRole())) {
             request.setAttribute("ruanganList", ruanganDAO.findAll());
             request.setAttribute("isAdmin", true);
@@ -39,11 +48,10 @@ public class RuanganController extends HttpServlet {
             request.setAttribute("isAdmin", false);
         }
 
-        request.getRequestDispatcher(
-                "/WEB-INF/views/ruang/ruangan.jsp")
-                .forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/ruang/ruangan.jsp").forward(request, response);
     }
 
+    /** [POLYMORPHISM] Override doPost — proses tambah/ubah/hapus ruangan */
     @Override
     protected void doPost(
             HttpServletRequest request,
@@ -60,7 +68,7 @@ public class RuanganController extends HttpServlet {
         RuanganDAO ruanganDAO = new RuanganDAO();
 
         if ("tambah".equals(action)) {
-
+            // [OBJECT] Instantiasi Ruangan dengan constructor default + setter
             Ruangan r = new Ruangan();
             r.setNamaRuangan(request.getParameter("nama_ruangan"));
             r.setJenis(request.getParameter("jenis"));
@@ -71,7 +79,6 @@ public class RuanganController extends HttpServlet {
             ruanganDAO.insert(r);
 
         } else if ("ubah".equals(action)) {
-
             int id = Integer.parseInt(request.getParameter("id"));
             Ruangan r = ruanganDAO.findById(id);
             if (r != null) {
@@ -86,7 +93,6 @@ public class RuanganController extends HttpServlet {
             }
 
         } else if ("hapus".equals(action)) {
-
             int id = Integer.parseInt(request.getParameter("id"));
             ruanganDAO.delete(id);
         }

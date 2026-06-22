@@ -115,12 +115,13 @@ tr:last-child td { border-bottom:none; }
                         <th>Tanggal Pinjam</th>
                         <th>Waktu</th>
                         <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:choose>
                         <c:when test="${empty pengajuanList}">
-                            <tr><td colspan="6" class="empty-state">Tidak ada pengajuan yang ditemukan.</td></tr>
+                            <tr><td colspan="7" class="empty-state">Tidak ada pengajuan yang ditemukan.</td></tr>
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="p" items="${pengajuanList}">
@@ -136,6 +137,12 @@ tr:last-child td { border-bottom:none; }
                                             <c:when test="${p.status == 'DITOLAK'}"><span class="badge reject">Ditolak</span></c:when>
                                             <c:otherwise><span class="badge pending">${p.status}</span></c:otherwise>
                                         </c:choose>
+                                    </td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/detail-pengajuan?id=${p.id}"
+                                           style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#C8102E;text-decoration:none;padding:5px 12px;border:1.5px solid #C8102E;border-radius:8px;">
+                                            <i class="fa-solid fa-eye"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>
