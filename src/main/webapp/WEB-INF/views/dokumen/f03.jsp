@@ -579,6 +579,18 @@ tr:last-child td {
         <a href="${pageContext.request.contextPath}/notifikasi" class="menu-anchor">
             <li><i class="fa-solid fa-bell"></i> Notifikasi</li>
         </a>
+
+
+        <a href="${pageContext.request.contextPath}/notifikasi"
+          class="menu-anchor">
+          
+            <li>
+                <i class="fa-solid fa-bell"></i>
+                Notifikasi
+                <span class="sb-badge">3</span>
+            </li>
+        </a>
+        
     </ul>
 
     <div class="sb-bottom">
