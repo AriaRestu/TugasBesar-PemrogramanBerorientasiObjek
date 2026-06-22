@@ -13,6 +13,7 @@ public class DatabaseConfig {
 
     public static final String PASSWORD =
             "";
+
     private DatabaseConfig() {
         // Prevent Instantiation
     }

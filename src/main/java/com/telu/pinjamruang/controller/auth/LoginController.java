@@ -2,13 +2,13 @@ package com.telu.pinjamruang.controller.auth;
 
 import com.telu.pinjamruang.dao.auth.UserDAO;
 import com.telu.pinjamruang.model.auth.User;
+import com.telu.pinjamruang.util.SessionUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -21,6 +21,14 @@ public class LoginController extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Jika sudah login (session/cookie), langsung ke dashboard
+        User user = SessionUtil.getLoggedInUser(request, response);
+        if (user != null) {
+            response.sendRedirect(
+                    request.getContextPath() + "/dashboard");
+            return;
+        }
+
         request.getRequestDispatcher(
                 "/WEB-INF/views/auth/login.jsp")
                 .forward(request, response);
@@ -32,35 +40,27 @@ public class LoginController extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        String email =
-                request.getParameter("email");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String selectedRole = request.getParameter("role");
+        String rememberMe = request.getParameter("remember");
 
-        String password =
-                request.getParameter("password");
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.login(email, password);
 
-        UserDAO userDAO =
-                new UserDAO();
+        if (user != null && user.getRole().equals(selectedRole)) {
 
-        User user =
-                userDAO.login(email, password);
-
-        if (user != null) {
-
-            HttpSession session =
-                    request.getSession();
-
-            session.setAttribute(
-                    "user", user);
+            // Simpan session + cookie (remember me)
+            boolean remember = "on".equals(rememberMe) || "true".equals(rememberMe);
+            SessionUtil.createLoginSession(request, response, user, remember);
 
             response.sendRedirect(
-                    request.getContextPath()
-                            + "/dashboard");
+                    request.getContextPath() + "/dashboard");
 
         } else {
 
-            request.setAttribute(
-                    "error",
-                    "Email atau password salah");
+            request.setAttribute("error",
+                    user != null ? "Role tidak sesuai dengan akun ini" : "Email atau password salah");
 
             request.getRequestDispatcher(
                     "/WEB-INF/views/auth/login.jsp")

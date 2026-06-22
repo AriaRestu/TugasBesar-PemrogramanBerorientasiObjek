@@ -1,4 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -184,6 +187,7 @@ td{
     margin-bottom: 10px;
 }
 
+.menu-anchor { text-decoration:none; color:inherit; display:block; }
 .sb-copyright {
     font-size: 10px;
     color: rgba(255,255,255,.35);
@@ -533,68 +537,9 @@ tr:last-child td {
 <!-- ===========================
      SIDEBAR
 =========================== -->
-<div class="sidebar">
-
-    <div class="sb-logo">
-        <div class="sb-logo-row">
-            <div class="sb-logo-icon">
-                <!-- Telkom-style icon -->
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="#C8102E"/>
-                    <rect x="9" y="15" width="6" height="6" fill="#99001A"/>
-                </svg>
-            </div>
-            <h1>Telkom University Surabaya</h1>
-        </div>
-    </div>
-
-    <div class="sb-section">Menu</div>
-
-    <ul class="menu">
-
-        <a href="${pageContext.request.contextPath}/dashboard"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/approval/ssc"
-           class="menu-anchor">
-            
-            <li class="active">
-                <i class="fa-solid fa-calendar-plus"></i>
-                Verifikasi Pengajuan
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/f03"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-file-lines"></i>
-                Generate F03
-            </li>
-        
-        </a>
-        
-    </ul>
-
-    <div class="sb-bottom">
-        <ul class="menu">
-            <li>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </li>
-        </ul>
-        <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
-    </div>
-
-</div>
+<jsp:include page="/WEB-INF/views/fragments/sidebar-role.jsp">
+    <jsp:param name="active" value="approval"/>
+</jsp:include>
 
 
 <!-- ===========================
@@ -613,10 +558,10 @@ tr:last-child td {
         </div>
         <div class="nb-right">
             <div class="user-area">
-                <div class="user-avatar">SC</div>
+                <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
                 <div>
-                    <div class="user-name">SSC</div>
-                    <div class="user-role">SSC</div>
+                    <div class="user-name">${sessionScope.user.nama}</div>
+                    <div class="user-role">${sessionScope.user.role}</div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
@@ -625,65 +570,109 @@ tr:last-child td {
 
 <div class="inner">
 
-    <div class="table-box">
+        <div class="table-box">
 
-        <div class="table-header">
-            <h2>Verifikasi Pengajuan SSC</h2>
+            <div class="table-header">
+                <h2>Verifikasi Pengajuan SSC</h2>
+                <span style="font-size:13px;color:#888;">${total} pengajuan</span>
+            </div>
+
+            <c:if test="${not empty param.success}">
+                <div style="background:#eaf7f0;color:#15803d;padding:12px 18px;border-radius:10px;font-size:13px;margin-bottom:16px;">
+                    Tindakan berhasil disimpan.
+                </div>
+            </c:if>
+
+            <%-- Search bar --%>
+            <form method="get" action="${pageContext.request.contextPath}/approval/ssc" style="display:flex;gap:10px;margin-bottom:16px;">
+                <input type="text" name="keyword" value="${param.keyword}"
+                       placeholder="🔍 Cari no tiket, peminjam, atau ruangan..."
+                       style="flex:1;padding:9px 13px;border:1px solid #e5e7eb;border-radius:9px;font-size:13px;outline:none;"/>
+                <button type="submit" style="background:#C8102E;color:white;border:none;padding:9px 18px;border-radius:9px;font-size:13px;cursor:pointer;">
+                    <i class="fa-solid fa-magnifying-glass"></i> Cari
+                </button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No Tiket</th>
+                        <th>Peminjam</th>
+                        <th>Ruangan</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Keperluan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty pendingList}">
+                            <tr><td colspan="6" style="text-align:center;padding:40px;color:#aaa;">Tidak ada pengajuan yang menunggu verifikasi SSC.</td></tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="p" items="${pendingList}">
+                                <tr>
+                                    <td><strong>${p.noTiket}</strong></td>
+                                    <td>${p.namaUser}</td>
+                                    <td>${not empty p.namaRuangan ? p.namaRuangan : '-'}</td>
+                                    <td><fmt:formatDate value="${p.tanggalPinjam}" pattern="dd/MM/yyyy"/></td>
+                                    <td>${p.keperluan}</td>
+                                    <td>
+                                        <button class="btn-red" onclick="openModal(${p.id}, 'setujui')">
+                                            <i class="fa-solid fa-check"></i> Teruskan
+                                        </button>
+                                        <button style="background:#555;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;margin-left:6px;"
+                                                onclick="openModal(${p.id}, 'tolak')">
+                                            <i class="fa-solid fa-xmark"></i> Tolak
+                                        </button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+
+            <%-- Paginasi --%>
+            <c:if test="${totalPages > 1}">
+                <div style="display:flex;justify-content:center;align-items:center;gap:6px;margin-top:20px;flex-wrap:wrap;">
+                    <c:forEach begin="1" end="${totalPages}" var="p">
+                        <a href="?keyword=${param.keyword}&page=${p}"
+                           style="padding:6px 12px;border-radius:8px;border:1px solid #e5e7eb;font-size:13px;text-decoration:none;
+                                  background:${p == page ? '#C8102E' : 'white'};color:${p == page ? 'white' : '#333'};">${p}</a>
+                    </c:forEach>
+                </div>
+            </c:if>
         </div>
 
-        <table>
+        <!-- Modal Konfirmasi -->
+        <div id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;">
+            <div style="background:white;border-radius:16px;padding:28px;width:420px;">
+                <h3 id="modalTitle" style="margin-bottom:16px;font-size:16px;">Konfirmasi</h3>
+                <form method="post" action="${pageContext.request.contextPath}/approval/ssc">
+                    <input type="hidden" name="pengajuan_id" id="modalPengajuanId"/>
+                    <input type="hidden" name="action" id="modalAction"/>
+                    <label style="font-size:13px;color:#555;display:block;margin-bottom:6px;">Catatan (opsional):</label>
+                    <textarea name="catatan" style="width:100%;border:1px solid #e0e0e0;border-radius:8px;padding:10px;font-size:13px;resize:vertical;min-height:80px;" placeholder="Tambahkan catatan..."></textarea>
+                    <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;">
+                        <button type="button" onclick="closeModal()" style="background:#f0f0f0;color:#555;border:none;padding:9px 18px;border-radius:8px;cursor:pointer;">Batal</button>
+                        <button type="submit" id="modalSubmit" class="btn-red">Konfirmasi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-            <thead>
-                <tr>
-                    <th>No Tiket</th>
-                    <th>Peminjam</th>
-                    <th>Ruangan</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Keperluan</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td>TKT-001</td>
-                    <td>Seminar Teknologi</td>
-                    <td>Mahasiswa A</td>
-                    <td>
-                        <span class="badge approve">
-                            DISETUJUI PEMBINA
-                        </span>
-                    </td>
-                    <td>
-                        <button class="btn-red">
-                            Teruskan ke Logam TUS
-                        </button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>TKT-002</td>
-                    <td>Workshop AI</td>
-                    <td>Mahasiswa B</td>
-                    <td>
-                        <span class="badge approve">
-                            DISETUJUI PEMBINA
-                        </span>
-                    </td>
-                    <td>
-                        <button class="btn-red">
-                            Teruskan ke Logam TUS
-                        </button>
-                    </td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
+        <script>
+        function openModal(id, action) {
+            document.getElementById('modalPengajuanId').value = id;
+            document.getElementById('modalAction').value = action;
+            document.getElementById('modalTitle').textContent = action === 'setujui' ? 'Teruskan ke Logam TUS' : 'Tolak Pengajuan';
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+        </script>
 
 </div>
 

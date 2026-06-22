@@ -1,4 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -184,6 +187,7 @@ td{
     margin-bottom: 10px;
 }
 
+.menu-anchor { text-decoration:none; color:inherit; display:block; }
 .sb-copyright {
     font-size: 10px;
     color: rgba(255,255,255,.35);
@@ -533,79 +537,9 @@ tr:last-child td {
 <!-- ===========================
      SIDEBAR
 =========================== -->
-<div class="sidebar">
-
-    <div class="sb-logo">
-        <div class="sb-logo-row">
-            <div class="sb-logo-icon">
-                <!-- Telkom-style icon -->
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="#C8102E"/>
-                    <rect x="9" y="15" width="6" height="6" fill="#99001A"/>
-                </svg>
-            </div>
-            <h1>Telkom University Surabaya</h1>
-        </div>
-    </div>
-
-    <div class="sb-section">Menu</div>
-
-    <ul class="menu">
-
-        <a href="${pageContext.request.contextPath}/dashboard"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/approval/ssc"
-           class="menu-anchor">
-            
-            <li>
-                <i class="fa-solid fa-calendar-plus"></i>
-                Verifikasi Pengajuan
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/f03"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-file-lines"></i>
-                Generate F03
-            </li>
-        
-        </a>
-    
-        <a href="${pageContext.request.contextPath}/notifikasi"
-           class="menu-anchor">
-    
-            <li class="active">
-                <i class="fa-solid fa-bell"></i>
-                Notifikasi
-                <span class="sb-badge">3</span>
-            </li>
-        
-        </a>
-        
-    </ul>
-
-    <div class="sb-bottom">
-        <ul class="menu">
-            <li>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </li>
-        </ul>
-        <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
-    </div>
-
-</div>
+<jsp:include page="/WEB-INF/views/fragments/sidebar-role.jsp">
+    <jsp:param name="active" value="notifikasi"/>
+</jsp:include>
 
 
 <!-- ===========================
@@ -624,10 +558,10 @@ tr:last-child td {
         </div>
         <div class="nb-right">
             <div class="user-area">
-                <div class="user-avatar">SC</div>
+                <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
                 <div>
-                    <div class="user-name">SSC</div>
-                    <div class="user-role">SSC</div>
+                    <div class="user-name">${sessionScope.user.nama}</div>
+                    <div class="user-role">${sessionScope.user.role}</div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
@@ -658,64 +592,37 @@ tr:last-child td {
             </thead>
 
             <tbody>
-
-            <tr>
-
-                <td>21 Juni 2026</td>
-
-                <td>Pengajuan</td>
-
-                <td>
-                    Pengajuan TKT-001 berhasil
-                    diteruskan ke LOGAM TUS.
-                </td>
-
-                <td>
-                    <span class="badge pending">
-                        Baru
-                    </span>
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>22 Juni 2026</td>
-
-                <td>Dokumen</td>
-
-                <td>
-                    Dokumen F03 untuk
-                    TKT-004 berhasil diterbitkan.
-                </td>
-
-                <td>
-                    <span class="badge approve">
-                        Dibaca
-                    </span>
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>22 Juni 2026</td>
-
-                <td>Approval</td>
-
-                <td>
-                    Pengajuan TKT-005
-                    telah disetujui LOGAM TUS.
-                </td>
-
-                <td>
-                    <span class="badge approve">
-                        Dibaca
-                    </span>
-                </td>
-
-            </tr>
-
+                <c:choose>
+                    <c:when test="${empty notifikasiList}">
+                        <tr><td colspan="4" style="text-align:center;padding:40px;color:#aaa;">Belum ada notifikasi.</td></tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="n" items="${notifikasiList}">
+                            <tr style="${n.dibaca ? '' : 'background:#fffbf0;'}">
+                                <td><fmt:formatDate value="${n.tanggal}" pattern="dd MMM yyyy HH:mm"/></td>
+                                <td>${n.tipe}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty n.link}">
+                                            <a href="${n.link}" style="color:#333;text-decoration:none;">${n.pesan}</a>
+                                        </c:when>
+                                        <c:otherwise>${n.pesan}</c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${n.dibaca}">
+                                            <span class="badge approve">Dibaca</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge pending">Baru</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </tbody>
 
         </table>

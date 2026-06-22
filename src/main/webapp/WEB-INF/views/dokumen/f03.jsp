@@ -1,4 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -184,6 +187,7 @@ td{
     margin-bottom: 10px;
 }
 
+.menu-anchor { text-decoration:none; color:inherit; display:block; }
 .sb-copyright {
     font-size: 10px;
     color: rgba(255,255,255,.35);
@@ -533,68 +537,9 @@ tr:last-child td {
 <!-- ===========================
      SIDEBAR
 =========================== -->
-<div class="sidebar">
-
-    <div class="sb-logo">
-        <div class="sb-logo-row">
-            <div class="sb-logo-icon">
-                <!-- Telkom-style icon -->
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="#C8102E"/>
-                    <rect x="9" y="15" width="6" height="6" fill="#99001A"/>
-                </svg>
-            </div>
-            <h1>Telkom University Surabaya</h1>
-        </div>
-    </div>
-
-    <div class="sb-section">Menu</div>
-
-    <ul class="menu">
-
-        <a href="${pageContext.request.contextPath}/dashboard"
-           class="menu-anchor">
-        
-            <li>
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/approval/ssc"
-           class="menu-anchor">
-            
-            <li>
-                <i class="fa-solid fa-calendar-plus"></i>
-                Verifikasi Pengajuan
-            </li>
-        
-        </a>
-
-        <a href="${pageContext.request.contextPath}/f03"
-           class="menu-anchor">
-        
-            <li class="active">
-                <i class="fa-solid fa-file-lines"></i>
-                Generate F03
-            </li>
-        
-        </a>
-        
-    </ul>
-
-    <div class="sb-bottom">
-        <ul class="menu">
-            <li>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </li>
-        </ul>
-        <p class="sb-copyright">© 2026 Telkom University Surabaya</p>
-    </div>
-
-</div>
+<jsp:include page="/WEB-INF/views/fragments/sidebar-role.jsp">
+    <jsp:param name="active" value="f03"/>
+</jsp:include>
 
 
 <!-- ===========================
@@ -613,10 +558,10 @@ tr:last-child td {
         </div>
         <div class="nb-right">
             <div class="user-area">
-                <div class="user-avatar">SC</div>
+                <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
                 <div>
-                    <div class="user-name">SSC</div>
-                    <div class="user-role">SSC</div>
+                    <div class="user-name">${sessionScope.user.nama}</div>
+                    <div class="user-role">${sessionScope.user.role}</div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
@@ -625,88 +570,129 @@ tr:last-child td {
 
 <div class="inner">
 
-    <div class="table-box">
+        <div class="table-box">
 
-        <div class="table-header">
+            <div class="table-header">
+                <h2>Dokumen F03 — Tiket Persetujuan</h2>
+            </div>
 
-            <h2>Generate Dokumen F03</h2>
+            <c:choose>
+                <%-- MODE LIST --%>
+                <c:when test="${mode == 'list'}">
+
+                    <%-- Pengajuan DISETUJUI yang belum punya F03 --%>
+                    <c:if test="${not empty belumAdaF03}">
+                        <div style="margin-bottom:24px;">
+                            <h3 style="font-size:14px;font-weight:700;color:#b45309;margin-bottom:12px;">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                Pengajuan Disetujui — Belum Ada F03
+                            </h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>No Tiket</th>
+                                        <th>Peminjam</th>
+                                        <th>Ruangan</th>
+                                        <th>Tanggal Pinjam</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="p" items="${belumAdaF03}">
+                                        <tr style="background:#fffbf0;">
+                                            <td><strong>${p.noTiket}</strong></td>
+                                            <td>${p.namaUser}</td>
+                                            <td>${not empty p.namaRuangan ? p.namaRuangan : '-'}</td>
+                                            <td><fmt:formatDate value="${p.tanggalPinjam}" pattern="dd/MM/yyyy"/></td>
+                                            <td>
+                                                <form method="post" action="${pageContext.request.contextPath}/f03" style="display:inline;">
+                                                    <input type="hidden" name="pengajuan_id" value="${p.id}"/>
+                                                    <button type="submit"
+                                                            style="background:#c8102e;color:white;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">
+                                                        <i class="fa-solid fa-file-pdf"></i> Generate F03
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr style="border:none;border-top:1px solid #f0f0f0;margin-bottom:24px;"/>
+                    </c:if>
+
+                    <%-- Daftar F03 yang sudah ada --%>
+                    <h3 style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:12px;">
+                        <i class="fa-solid fa-file-lines"></i> Dokumen F03 Diterbitkan
+                    </h3>
+                    <c:choose>
+                        <c:when test="${empty f03List}">
+                            <p style="text-align:center;padding:30px;color:#aaa;font-size:14px;">Belum ada dokumen F03 yang diterbitkan.</p>
+                        </c:when>
+                        <c:otherwise>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>No Tiket</th>
+                                        <th>Nama Kegiatan</th>
+                                        <th>Peminjam</th>
+                                        <th>Ruangan</th>
+                                        <th>Status</th>
+                                        <th>Tanggal Terbit</th>
+                                        <th>Unduh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="f" items="${f03List}">
+                                        <tr>
+                                            <td><strong>${f.noTiket}</strong></td>
+                                            <td>${not empty f.keperluan ? f.keperluan : '-'}</td>
+                                            <td>${not empty f.namaPeminjam ? f.namaPeminjam : '-'}</td>
+                                            <td>${not empty f.namaRuangan ? f.namaRuangan : '-'}</td>
+                                            <td><span class="badge approve">${not empty f.statusPengajuan ? f.statusPengajuan : '-'}</span></td>
+                                            <td><fmt:formatDate value="${f.tanggalTerbit}" pattern="dd MMM yyyy HH:mm"/></td>
+                                            <td>
+                                                <a href="${pageContext.request.contextPath}/f03?download=${f.id}"
+                                                   style="display:inline-flex;align-items:center;gap:6px;background:#c8102e;color:white;padding:7px 14px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600;">
+                                                    <i class="fa-solid fa-download"></i> Unduh PDF
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+
+                <%-- MODE DETAIL --%>
+                <c:otherwise>
+                    <c:choose>
+                        <c:when test="${empty f03}">
+                            <p style="text-align:center;padding:40px;color:#aaa;font-size:14px;">
+                                Dokumen F03 belum tersedia untuk pengajuan ini.
+                            </p>
+                        </c:when>
+                        <c:otherwise>
+                            <table>
+                                <tbody>
+                                    <tr><th style="width:220px;">No Tiket</th><td>${f03.noTiket}</td></tr>
+                                    <tr><th>Tanggal Terbit</th><td><fmt:formatDate value="${f03.tanggalTerbit}" pattern="dd MMMM yyyy HH:mm"/></td></tr>
+                                    <tr><th>Diterbitkan Oleh</th><td>${not empty f03.namaPenerbit ? f03.namaPenerbit : '-'}</td></tr>
+                                </tbody>
+                            </table>
+                            <div style="margin-top:24px;">
+                                <a href="${pageContext.request.contextPath}/f03?download=${f03.id}"
+                                   style="display:inline-flex;align-items:center;gap:8px;background:#c8102e;color:white;padding:10px 20px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:600;">
+                                    <i class="fa-solid fa-download"></i> Unduh PDF
+                                </a>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:otherwise>
+            </c:choose>
 
         </div>
-
-        <table>
-
-            <thead>
-
-            <tr>
-                <th>No Tiket</th>
-                <th>Kegiatan</th>
-                <th>Peminjam</th>
-                <th>Ruangan</th>
-                <th>Status</th>
-                <th>Generate</th>
-            </tr>
-
-            </thead>
-
-            <tbody>
-
-            <tr>
-
-                <td>TKT-004</td>
-
-                <td>Peminjam Demo</td>
-
-                <td>Festival Mahasiswa</td>
-
-                <td>
-
-                    <span class="badge approve">
-                        DISETUJUI LOGAM TUS
-                    </span>
-
-                </td>
-
-                <td>
-
-                    <button class="btn-red">
-                        Generate F03
-                    </button>
-
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>TKT-005</td>
-
-                <td>Peminjam Demo</td>
-
-                <td>Seminar Nasional</td>
-
-                <td>
-
-                    <span class="badge approve">
-                        DISETUJUI LOGAM TUS
-                    </span>
-
-                </td>
-
-                <td>
-
-                    <button class="btn-red">
-                        Generate F03
-                    </button>
-
-                </td>
-
-            </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
 
 </div>
 
