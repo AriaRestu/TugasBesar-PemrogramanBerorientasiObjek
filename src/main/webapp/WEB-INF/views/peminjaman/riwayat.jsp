@@ -11,7 +11,7 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 body { background:#f4f6f9; display:flex; min-height:100vh; }
-.sidebar { position:fixed; top:0; left:0; width:240px; height:100vh; background:linear-gradient(180deg,#B20824,#C8102E,#99001A); display:flex; flex-direction:column; z-index:100; }
+.sidebar { position:fixed; top:0; left:0; width:240px; height:100vh; background:linear-gradient(180deg,#B20824,#C8102E,#99001A); color:white; display:flex; flex-direction:column; z-index:100; }
 .sb-logo { padding:20px 18px 16px; border-bottom:1px solid rgba(255,255,255,.15); }
 .sb-logo-row { display:flex; align-items:center; gap:10px; }
 .sb-logo-icon { width:36px; height:36px; background:white; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }

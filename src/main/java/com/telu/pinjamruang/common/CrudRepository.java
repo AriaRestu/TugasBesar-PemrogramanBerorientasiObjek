@@ -3,11 +3,10 @@ package com.telu.pinjamruang.common;
 import java.util.List;
 
 /**
- * [INTERFACE] Generic CRUD contract yang harus diimplementasikan setiap DAO.
- * Contoh penggunaan OOP: Interface → diimplementasikan oleh BaseDAO dan subclass-nya.
- *
+ * INTERFACE Generic CRUD contract yang harus diimplementasikan setiap DAO.
  * @param <T> tipe model (User, Ruangan, Pengajuan, dst)
  */
+
 public interface CrudRepository<T> {
 
     /** Ambil semua data */

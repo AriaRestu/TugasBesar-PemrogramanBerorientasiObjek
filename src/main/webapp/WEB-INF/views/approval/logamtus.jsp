@@ -570,10 +570,10 @@
         </div>
         <div class="nb-right">
           <div class="user-area">
-            <div class="user-avatar">LT</div>
+            <div class="user-avatar">${fn:substring(sessionScope.user.nama, 0, 1)}</div>
             <div>
-              <div class="user-name">Logam TUS</div>
-              <div class="user-role">Logam TUS</div>
+              <div class="user-name">${sessionScope.user.nama}</div>
+              <div class="user-role">${sessionScope.user.role}</div>
             </div>
             <i class="fa-solid fa-chevron-down"></i>
           </div>
